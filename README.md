@@ -1882,3 +1882,3557 @@ print  text
 ```
 以上代码执行结果为：
 `{u'a': 1, u'c': 3, u'b': 2, u'e': 5, u'd': 4}`
+
+### Python内建函数
+>### divmod(a, b)
+>python divmod() 函数把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a // b, a % b)。
+
+>### open ( name [, mode [, buffering ]])
+>在python I/O函数介绍理有一单元提到open函数之用法。
+
+>### staticmethod(function)
+>python staticmethod 返回函数的静态方法。
+该方法不强制要求传递参数，如下声明一个静态方法：
+>```python
+>class C(object):
+>    @staticmethod
+>    def f(arg1, arg2, ...):
+>```
+
+>### all ( iterable )
+>all() 函数用于判断给定的可迭代参数 iterable 中的所有元素是否都为 TRUE，如果是返回 True，否则返回 False。
+元素除了是 0、空、None、False 外都算 True。
+
+>### enumerate(sequence, [start=0])
+>enumerate() 函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标，一般用在 for 循环当中。
+Python 2.3. 以上版本可用，2.6 添加 start 参数。
+>- sequence -- 一个序列、迭代器或其他支持迭代对象。
+>- start -- 下标起始位置。
+
+>
+>### chr（i）
+>chr() 用一个范围在 range（256）内的（就是0～255）整数作参数，返回一个对应的字符。i為16进位的数字。
+
+>### ord(c)
+>ord（）函數是chr（）函數（對於8位的ASCII字符串）或unichr（）函數（對於Unicode對象）的配對函數，它以一個字符（長度為1的字符串）作為參數，返回對應的ASCII數值，或者Unicode數值，如果所給的Unicode字符超出了你的Python定義範圍，則會引發一個TypeError的異常。
+> c 是字符
+> ```python
+>>>>ord('a')
+>97
+>```
+
+>### any(iterable)
+>any() 函数用于判断给定的可迭代参数 iterable 是否全部为 False，则返回 False，如果有一个为 True，则返回 True。
+>元素除了是 0、空、FALSE 外都算 TRUE。
+
+>### eval ( expression [, globals [, locals ]])
+>eval() 函數用來執行一個字符串表達式，並返回表達式的值。
+>- expression -- 表達式。
+>- globals -- 變量作用域，全局命名空間，如果被提供，則必須是一個字典對象。
+>- locals -- 變量作用域，局部命名空間，如果被提供，可以是任何映射對象。
+>```python
+>>>> x = 7 
+>>>> eval ( ' 3 * x ' ) 21 
+>>>> eval ( ' pow(2,2) ' ) 4 
+>>>> eval ( ' 2 + 2 ' ) 4 
+>>>> n = 81 
+>>>> eval ( " n + 4 " ) 85  
+>```
+
+>### isinstance(object, classinfo)
+>object -- 实例对象。
+classinfo -- 可以是直接或间接类名、基本类型或者由它们组成的元组。
+>isinstance() 函数来判断一个对象是否是一个已知的类型，类似 type()。
+>如果对象的类型与参数二的类型（classinfo）相同则返回 True，否则返回 False。。
+>:::info
+>isinstance() 与 type() 区别：
+>type() 不会认为子类是一种父类类型，不考虑继承关系。
+>isinstance() 会认为子类是一种父类类型，考虑继承关系。
+>如果要判断两个类型是否相同推荐使用 isinstance()。
+>```python
+>class A:
+>    pass 
+>class B(A):
+>    pass
+> 
+>isinstance(A(), A)    # returns True
+>type(A()) == A        # returns True
+>isinstance(B(), A)    # returns True
+>type(B()) == A        # returns False
+>Python 内置函数 Python 内置函数
+>```
+>:::
+>```python
+>>>>a = 2
+>>>> isinstance (a,int)
+>True
+>>>> isinstance (a,str)
+>False
+>>>> isinstance (a,(str,int,list))  # 是元组中的一个返回 True
+>True
+>```
+
+>### property : 
+>`class property([fget[, fset[, fdel[, doc]]]])`
+>property() 函数的作用是在新式类中返回属性值。
+>fget -- 获取属性值的函数
+>fset -- 设置属性值的函数
+>fdel -- 删除属性值函数
+>doc -- 属性描述信息
+>返回新式类属性。
+>实例：
+```python
+class C(object):
+    def __init__(self):
+        self._x = None
+ 
+    def getx(self):
+        return self._x
+ 
+    def setx(self, value):
+        self._x = value
+ 
+    def delx(self):
+        del self._x
+ 
+    x = property(getx, setx, delx, "I'm the 'x' property.")
+```
+>如果c是C的實例化，c.x 將觸發 getter，c.x = value將觸發setter，del c.x觸發刪除。
+如果給定doc參數，其將成為這個屬性值的docstring，否則屬性函數就會復制fget函數的docstring（如果有的話）。
+將屬性函數用作裝飾器可以很方便的創建只讀屬性：
+```python
+class Parrot(object):
+    def __init__(self):
+        self._voltage = 100000
+ 
+    @property
+    def voltage(self):
+        """Get the current voltage."""
+        return self._voltage
+```        
+>上面的代碼將voltage（）方法轉化成同名只讀屬性的getter方法。
+>property的getter，setter和deleter方法同樣可以用作裝飾器：
+```python
+class C(object):
+    def __init__(self):
+        self._x = None
+ 
+    @property
+    def x(self):
+        """I'm the 'x' property."""
+        return self._x
+ 
+    @x.setter
+    def x(self, value):
+        self._x = value
+ 
+    @x.deleter
+    def x(self):
+        del self._x
+```
+>這個代碼和第一個例子完全相同，但要注意這些額外函數的名字和屬性下的一樣，例如這裡的x。
+
+>### pow( x, y [ , z ] )
+>从 math 模块引入 pow()，pow() 方法返回 xy（x的y次方） 的值。
+
+
+>### sum(iterable[, start])
+>sum() 方法对系列进行求和计算。
+
+>### basestring()
+>无参数或返回值
+>basestring（）方法是str和unicode的超類（父類），也是抽像類，因此不能被調用和實例化，但可以被用來判斷一個對像是否為str或者unicode的實例，isinstance（obj，basestring）等價於isinstance（obj，（str，unicode））
+
+>### execfile(filename[, globals[, locals]])
+>execfile() 函數可以用來執行一個文件。
+>- filename -- 文件名。
+>- globals -- 變量作用域，全局命名空間，如果被提供，則必須是一個字典對象。
+>- locals -- 變量作用域，局部命名空間，如果被提供，可以是任何映射對象。
+>
+>假设有一个hello.py的文件，内有`print('runoob');`
+>就可以使用execfile调用文件：
+>```python
+>>>> execfile ( ' hello.py ' ) runoob
+>```
+
+
+>### issubclass(class, classinfo)
+>issubclass（）方法用於判斷參數類是否是類型參數classinfo的子類。
+>如果類是classinfo的子類返回True，否則返回False。
+>```python
+>#!/usr/bin/python
+># -*- coding: UTF-8 -*-
+> 
+>class A:
+>    pass
+>class B(A):
+>    pass
+>    
+>print(issubclass(B,A))    # 返回 True
+>```
+
+>### super ( type [ , object-or-type] )
+>- type -- 类。
+>- object-or-type -- 类，一般是 self
+>
+>super() 函数是用于调用父类(超类)的一个方法。
+>super 是用来解决多重继承问题的，直接用类名调用父类方法在使用单继承的时候没问题，但是如果使用多继承，会涉及到查找顺序（MRO）、重复调用（钻石继承）等种种问题。
+>MRO 就是类的方法解析顺序表, 其实也就是继承父类方法时的顺序表。没有反回值。
+>Python3.x 和 Python2.x 的一个区别是: Python 3 可以使用直接使用 super().xxx 代替 super(Class, self).xxx 
+>例子：
+>```python
+>#!/usr/bin/python
+># -*- coding: UTF-8 -*-
+> 
+>class A(object):   # Python2.x 记得继承 object
+>    def add(self, x):
+>         y = x+1
+>         print(y)
+>class B(A):
+>    def add(self, x):
+>        super(B, self).add(x)
+>b = B()
+>b.add(2)  # 3
+>```
+>
+>
+>
+>### bin(x) 
+>x 是 int or long int 数字
+>bin() 返回一个整数 int 或者长整数 long int 的二进制表示。
+>
+>### iter ( object [ , sentinel ] )
+>object -- 支持迭代的集合对象。
+>sentinel -- 如果传递了第二个参数，则参数 object 必须是一个可调用的对象（如，函数），此时，iter 创建了一个迭代器对象，每次调用这个迭代器对象的__next__()方法时，都会调用 object。
+>iter() 函数用来生成迭代器。返回迭代器对象
+
+>### bool
+>用法 class bool([x])
+>bool() 函数用于将给定参数转换为布尔类型，如果没有参数，返回 False。
+>bool 是 int 的子类。
+>返回 True or False
+
+>### bytearray()
+>class bytearray([source[, encoding[, errors]]])
+>- 如果 source 为整数，则返回一个长度为 source 的初始化数组；
+>- 如果 source 为字符串，则按照指定的 encoding 将字符串转换为字节序列；
+>- 如果 source 为可迭代类型，则元素必须为[0 ,255] 中的整数；
+>- 如果 source 为与 buffer 接口一致的对象，则此对象也可以被用于初始化 bytearray。
+>- 如果没有输入任何参数，默认就是初始化数组为0个元素。
+>
+>bytearray() 方法返回一个新字节数组。这个数组里的元素是可变的，并且每个元素的值范围: 0 <= x < 256。
+
+>### row_imput()
+>:::info
+>注意：input（）和raw_input（）這兩個函數均能接收字符串，但raw_input（）直接讀取控制台的輸入（任何類型的輸入它都可以接收）。而對於input（），它希望能夠讀取一個合法的python表達式，即你輸入字符串的時候必須使用引號將它括起來，否則它會引發一個SyntaxError。
+>
+>除非對輸入（）有特別需要，否則一般情況下我們都是推薦使用raw_input（）來與用戶交互。
+>
+>注意：python3裡input（）默認接收到的是str類型。
+>:::
+
+>### unichr(i)
+>unichr() 函数 和 chr()函数功能基本一样， 只不过是返回 unicode 的字符。返回 unicode 的字符。
+
+>### frozenset()
+>class frozenset([iterable])
+>frozenset() 返回一个冻结的集合，冻结后集合不能再添加或删除任何元素。返回新的 frozenset 对象，如果不提供任何参数，默认会生成空集合。
+>```python
+>>>> a = frozenset(range(10))     # 生成一个新的不可变集合
+>>>> a
+>frozenset([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+>>>> b = frozenset('runoob') 
+>>>> b
+>frozenset(['b', 'r', 'u', 'o', 'n'])   # 创建不可变集合
+>```
+
+>### class long(x, base=10)
+>long() 函数将数字或字符串转换为一个长整型。返回长整型数。
+>- x -- 字符串或数字。
+>- base -- 可选，进制数，默认十进制。
+
+>### reload(module)
+>module -- 模块对象。reload() 用于重新载入之前载入的模块。
+>```python
+>>>>import sys
+>>>> sys.getdefaultencoding()            # 当前默认编码
+>'ascii'
+>>>> reload(sys)                         # 使用 reload
+><module 'sys' (built-in)>
+>>>> sys.setdefaultencoding('utf8')      # 设置编码
+>>>> sys.getdefaultencoding()
+>'utf8'
+>```
+
+>### callable(object)
+>callable() 函数用于检查一个对象是否是可调用的。如果返回 True，object 仍然可能调用失败；但如果返回 False，调用对象 object 绝对不会成功。
+>对于函数、方法、lambda 函式、 类以及实现了 __call__ 方法的类实例, 它都返回 True。
+```python
+>>>callable(0)
+False
+>>> callable("runoob")
+False
+ 
+>>> def add(a, b):
+...     return a + b
+... 
+>>> callable(add)             # 函数返回 True
+True
+>>> class A:                  # 类
+...     def method(self):
+...             return 0
+... 
+>>> callable(A)               # 类返回 True
+True
+>>> a = A()
+>>> callable(a)               # 没有实现 __call__, 返回 False
+False
+>>> class B:
+...     def __call__(self):
+...             return 0
+... 
+>>> callable(B)
+True
+>>> b = B()
+>>> callable(b)               # 实现 __call__, 返回 True
+True
+```
+callable()返回True or False.
+
+
+>### format()
+>Python2.6 开始，新增了一种格式化字符串的函数 str.format()，它增强了字符串格式化的功能。
+>
+>基本语法是通过 {} 和 : 来代替以前的 % 。
+>
+>format 函数可以接受不限个参数，位置可以不按顺序。
+>```python
+>>
+>>>>"{} {}".format("hello", "world")    # 不设置指定位置，按默认顺序
+>'hello world'
+>>>> "{0} {1}".format("hello", "world")  # 设置指定位置
+>'hello world'
+>>>> "{1} {0} {1}".format("hello", "world")  # 设置指定位置
+>'world hello world'
+>```
+>数字格式化:
+>- `^`, `<`, `>` 分别是居中、左对齐、右对齐，后面带宽度， : 号后面带填充的字符，只能是一个字符，不指定则默认是用空格填充。
+>- `+`表示在正数前显示 +，负数前显示 -；  （空格）表示在正数前加空格
+>- b、d、o、x 分别是二进制、十进制、八进制、十六进制。
+
+>|数字|格式|输出|描述|
+>|-|-|-|-|
+>|3.1415926|{:.2f}|3.14|保留小数点后两位|
+>|3.1415926|{:+.2f}|+3.14|带符号保留小数点后两位|
+>|-1|{:+.2f}|-1.00|带符号保留小数点后两位|
+>|5|{:0>2d}|05|数字补零 (填充左边, 宽度为2)|
+>|5|{:x<4d}|5xxx|数字补x (填充右边, 宽度为4)|
+>|1000000|{:,}|1,000,000|以逗号分隔的数字格式|
+>|13|{:10d}|13|右对齐 (默认, 宽度为10)|
+>|13|{:<10d}|13|左对齐 (宽度为10)|
+>|13|{:^10d}|13|中间对齐 (宽度为10)|
+
+>### locals()
+>locals() 函数会以字典类型返回当前位置的全部局部变量。
+>对于函数, 方法, lambda 函式, 类, 以及实现了 __call__ 方法的类实例, 它都返回 True。
+>没有参数，返回字典类型的局部变量
+
+>### reduce(function, iterable[, initializer])
+>reduce() 函数会对参数序列中元素进行累积。
+函数将一个数据集合（链表，元组等）中的所有数据进行下列操作：用传给 reduce 中的函数 function（有两个参数）先对集合中的第 1、2 个元素进行操作，得到的结果再与第三个数据用 function 函数运算，最后得到一个结果。返回函数计算结果
+>function -- 函数，有两个参数
+>iterable -- 可迭代对象
+>initializer -- 可选，初始参数
+
+
+>### vars([object])
+>vars() 函数返回对象object的属性和属性值的字典对象。返回对象object的属性和属性值的字典对象，如果没有参数，就打印当前调用位置的属性和属性值 类似 locals()。
+>例子
+>```python
+>>>>print(vars())
+>{'__builtins__': <module '__builtin__' (built-in)>, '__name__': '__main__', '__doc__': None, '__package__': None}
+>>>> class Runoob:
+>...     a = 1
+>... 
+>>>> print(vars(Runoob))
+>{'a': 1, '__module__': '__main__', '__doc__': None}
+>>>> runoob = Runoob()
+>>>> print(vars(runoob))
+>{}
+>```
+
+>### classmethod
+>classmethod 修饰符对应的函数不需要实例化，不需要 self 参数，但第一个参数需要是表示自身类的 cls 参数，可以来调用类的属性，类的方法，实例化对象等。返回函数的类方法。
+
+>### getattr(object, name[, default])
+>getattr() 函数用于返回一个对象属性值。返回对象属性值。
+>- object -- 对象。
+>- name -- 字符串，对象属性。
+>- default -- 默认返回值，如果不提供该参数，在没有对应属性时，将触发 AttributeError。
+
+>### map() 
+>map()根据提供的函数对指定序列做映射。
+>第一个参数 function 以参数序列中的每一个元素调用 function 函数，返回包含每次 function 函数返回值的新列表。
+>
+
+### Python3 面向对象
+Python从设计之初就已经是一门面向对象的语言，正因为如此，在Python中创建一个类和对象是很容易的。本章节我们将详细介绍Python的面向对象编程。
+如果你以前没有接触过面向对象的编程语言，那你可能需要先了解一些面向对象语言的一些基本特征，在头脑里头形成一个基本的面向对象的概念，这样有助于你更容易的学习Python的面向对象编程。
+接下来我们先来简单的了解下面向对象的一些基本特征。
+面向对象技术简介
+#### 类(Class): 用来描述具有相同的属性和方法的对象的集合。它定义了该集合中每个对象所共有的属性和方法。对象是类的实例。
+方法：类中定义的函数。
+类变量：类变量在整个实例化的对象中是公用的。类变量定义在类中且在函数体之外。类变量通常不作为实例变量使用。
+数据成员：类变量或者实例变量用于处理类及其实例对象的相关的数据。
+方法重写：如果从父类继承的方法不能满足子类的需求，可以对其进行改写，这个过程叫方法的覆盖（override），也称为方法的重写。
+局部变量：定义在方法中的变量，只作用于当前实例的类。
+实例变量：在类的声明中，属性是用变量来表示的。这种变量就称为实例变量，是在类声明的内部但是在类的其他成员方法之外声明的。
+#### 继承：即一个派生类（derived class）继承基类（base class）的字段和方法。继承也允许把一个派生类的对象作为一个基类对象对待。例如，有这样一个设计：一个Dog类型的对象派生自Animal类，这是模拟"是一个（is-a）"关系（例图，Dog是一个Animal）。
+#### 实例化：创建一个类的实例，类的具体对象。
+对象：通过类定义的数据结构实例。对象包括两个数据成员（类变量和实例变量）和方法。
+和其它编程语言相比，Python 在尽可能不增加新的语法和语义的情况下加入了类机制。
+Python中的类提供了面向对象编程的所有基本功能：类的继承机制允许多个基类，派生类可以覆盖基类中的任何方法，方法中可以调用基类中的同名方法。
+对象可以包含任意数量和类型的数据。
+类定义
+语法格式如下：
+```python
+class ClassName:
+    <statement-1>
+    .
+    .
+    .
+    <statement-N>
+```
+类实例化后，可以使用其属性，实际上，创建一个类之后，可以通过类名访问其属性。
+类对象
+类对象支持两种操作：属性引用和实例化。
+属性引用使用和 Python 中所有的属性引用一样的标准语法：obj.name。
+类对象创建后，类命名空间中所有的命名都是有效属性名。所以如果类定义是这样:
+实例(Python 3.0+)
+```python
+#!/usr/bin/python3
+ 
+class MyClass:
+    """一个简单的类实例"""
+    i = 12345
+    def f(self):
+        return 'hello world'
+ 
+# 实例化类
+x = MyClass()
+``` 
+# 访问类的属性和方法
+print("MyClass 类的属性 i 为：", x.i)
+print("MyClass 类的方法 f 输出为：", x.f())
+以上创建了一个新的类实例并将该对象赋给局部变量 x，x 为空的对象。
+执行以上程序输出结果为：
+MyClass 类的属性 i 为： 12345
+MyClass 类的方法 f 输出为： hello world
+类有一个名为 __init__() 的特殊方法（构造方法），该方法在类实例化时会自动调用，像下面这样：
+def __init__(self):
+    self.data = []
+类定义了 __init__() 方法，类的实例化操作会自动调用 __init__() 方法。如下实例化类 MyClass，对应的 __init__() 方法就会被调用:
+x = MyClass()
+当然， __init__() 方法可以有参数，参数通过 __init__() 传递到类的实例化操作上。例如:
+实例(Python 3.0+)
+```python
+#!/usr/bin/python3
+ 
+class Complex:
+    def __init__(self, realpart, imagpart):
+        self.r = realpart
+        self.i = imagpart
+x = Complex(3.0, -4.5)
+print(x.r, x.i)   # 输出结果：3.0 -4.5
+```
+self代表类的实例，而非类
+类的方法与普通的函数只有一个特别的区别——它们必须有一个额外的第一个参数名称, 按照惯例它的名称是 self。
+```python
+class Test:
+    def prt(self):
+        print(self)
+        print(self.__class__)
+ 
+t = Test()
+t.prt()
+```
+以上实例执行结果为：
+<__main__.Test instance at 0x100771878>
+__main__.Test
+从执行结果可以很明显的看出，self 代表的是类的实例，代表当前对象的地址，而 self.class 则指向类。
+self 不是 python 关键字，我们把他换成 runoob 也是可以正常执行的:
+```python
+class Test:
+    def prt(runoob):
+        print(runoob)
+        print(runoob.__class__)
+ 
+t = Test()
+t.prt()
+```
+以上实例执行结果为：
+<__main__.Test instance at 0x100771878>
+__main__.Test
+类的方法
+在类的内部，使用 def 关键字来定义一个方法，与一般函数定义不同，类方法必须包含参数 self, 且为第一个参数，self 代表的是类的实例。
+实例(Python 3.0+)
+```python
+#!/usr/bin/python3
+ 
+#类定义
+class people:
+    #定义基本属性
+    name = ''
+    age = 0
+    #定义私有属性,私有属性在类外部无法直接进行访问
+    __weight = 0
+    #定义构造方法
+    def __init__(self,n,a,w):
+        self.name = n
+        self.age = a
+        self.__weight = w
+    def speak(self):
+        print("%s 说: 我 %d 岁。" %(self.name,self.age))
+ 
+# 实例化类
+p = people('runoob',10,30)
+p.speak()
+执行以上程序输出结果为：
+runoob 说: 我 10 岁。
+继承
+Python 同样支持类的继承，如果一种语言不支持继承，类就没有什么意义。派生类的定义如下所示:
+class DerivedClassName(BaseClassName1):
+    <statement-1>
+    .
+    .
+    .
+    <statement-N>
+```
+需要注意圆括号中基类的顺序，若是基类中有相同的方法名，而在子类使用时未指定，python从左至右搜索 即方法在子类中未找到时，从左到右查找基类中是否包含方法。
+BaseClassName（示例中的基类名）必须与派生类定义在一个作用域内。除了类，还可以用表达式，基类定义在另一个模块中时这一点非常有用:
+class DerivedClassName(modname.BaseClassName):
+实例(Python 3.0+)
+```python
+#!/usr/bin/python3
+ 
+#类定义
+class people:
+    #定义基本属性
+    name = ''
+    age = 0
+    #定义私有属性,私有属性在类外部无法直接进行访问
+    __weight = 0
+    #定义构造方法
+    def __init__(self,n,a,w):
+        self.name = n
+        self.age = a
+        self.__weight = w
+    def speak(self):
+        print("%s 说: 我 %d 岁。" %(self.name,self.age))
+ 
+#单继承示例
+class student(people):
+    grade = ''
+    def __init__(self,n,a,w,g):
+        #调用父类的构函
+        people.__init__(self,n,a,w)
+        self.grade = g
+    #覆写父类的方法
+    def speak(self):
+        print("%s 说: 我 %d 岁了，我在读 %d 年级"%(self.name,self.age,self.grade))
+ 
+ 
+ 
+s = student('ken',10,60,3)
+s.speak()
+执行以上程序输出结果为：
+ken 说: 我 10 岁了，我在读 3 年级
+多继承
+Python同样有限的支持多继承形式。多继承的类定义形如下例:
+class DerivedClassName(Base1, Base2, Base3):
+    <statement-1>
+    .
+    .
+    .
+    <statement-N>
+```
+需要注意圆括号中父类的顺序，若是父类中有相同的方法名，而在子类使用时未指定，python从左至右搜索 即方法在子类中未找到时，从左到右查找父类中是否包含方法。
+实例(Python 3.0+)
+```python
+#!/usr/bin/python3
+ 
+#类定义
+class people:
+    #定义基本属性
+    name = ''
+    age = 0
+    #定义私有属性,私有属性在类外部无法直接进行访问
+    __weight = 0
+    #定义构造方法
+    def __init__(self,n,a,w):
+        self.name = n
+        self.age = a
+        self.__weight = w
+    def speak(self):
+        print("%s 说: 我 %d 岁。" %(self.name,self.age))
+ 
+#单继承示例
+class student(people):
+    grade = ''
+    def __init__(self,n,a,w,g):
+        #调用父类的构函
+        people.__init__(self,n,a,w)
+        self.grade = g
+    #覆写父类的方法
+    def speak(self):
+        print("%s 说: 我 %d 岁了，我在读 %d 年级"%(self.name,self.age,self.grade))
+ 
+#另一个类，多重继承之前的准备
+class speaker():
+    topic = ''
+    name = ''
+    def __init__(self,n,t):
+        self.name = n
+        self.topic = t
+    def speak(self):
+        print("我叫 %s，我是一个演说家，我演讲的主题是 %s"%(self.name,self.topic))
+ 
+#多重继承
+class sample(speaker,student):
+    a =''
+    def __init__(self,n,a,w,g,t):
+        student.__init__(self,n,a,w,g)
+        speaker.__init__(self,n,t)
+ 
+test = sample("Tim",25,80,4,"Python")
+test.speak()   #方法名同，默认调用的是在括号中排前地父类的方法
+```
+执行以上程序输出结果为：
+我叫 Tim，我是一个演说家，我演讲的主题是 Python
+方法重写
+如果你的父类方法的功能不能满足你的需求，你可以在子类重写你父类的方法，实例如下：
+实例(Python 3.0+)
+```python
+#!/usr/bin/python3
+ 
+class Parent:        # 定义父类
+   def myMethod(self):
+      print ('调用父类方法')
+ 
+class Child(Parent): # 定义子类
+   def myMethod(self):
+      print ('调用子类方法')
+ 
+c = Child()          # 子类实例
+c.myMethod()         # 子类调用重写方法
+super(Child,c).myMethod() #用子类对象调用父类已被覆盖的方法
+```
+super() 函数是用于调用父类(超类)的一个方法。
+执行以上程序输出结果为：
+调用子类方法
+调用父类方法
+更多文档：
+Python 子类继承父类构造函数说明
+类属性与方法
+类的私有属性
+__private_attrs：两个下划线开头，声明该属性为私有，不能在类的外部被使用或直接访问。在类内部的方法中使用时 self.__private_attrs。
+类的方法
+在类的内部，使用 def 关键字来定义一个方法，与一般函数定义不同，类方法必须包含参数 self，且为第一个参数，self 代表的是类的实例。
+self 的名字并不是规定死的，也可以使用 this，但是最好还是按照约定是用 self。
+类的私有方法
+__private_method：两个下划线开头，声明该方法为私有方法，只能在类的内部调用 ，不能在类的外部调用。self.__private_methods。
+实例
+类的私有属性实例如下：
+实例(Python 3.0+)
+```python
+#!/usr/bin/python3
+ 
+class JustCounter:
+    __secretCount = 0  # 私有变量
+    publicCount = 0    # 公开变量
+ 
+    def count(self):
+        self.__secretCount += 1
+        self.publicCount += 1
+        print (self.__secretCount)
+ 
+counter = JustCounter()
+counter.count()
+counter.count()
+print (counter.publicCount)
+print (counter.__secretCount)  # 报错，实例不能访问私有变量
+执行以上程序输出结果为：
+1
+2
+2
+Traceback (most recent call last):
+  File "test.py", line 16, in <module>
+    print (counter.__secretCount)  # 报错，实例不能访问私有变量
+AttributeError: 'JustCounter' object has no attribute '__secretCount'
+```
+类的私有方法实例如下：
+```python
+#!/usr/bin/python3
+ 
+class Site:
+    def __init__(self, name, url):
+        self.name = name       # public
+        self.__url = url   # private
+ 
+    def who(self):
+        print('name  : ', self.name)
+        print('url : ', self.__url)
+ 
+    def __foo(self):          # 私有方法
+        print('这是私有方法')
+ 
+    def foo(self):            # 公共方法
+        print('这是公共方法')
+        self.__foo()
+ 
+x = Site('菜鸟教程', 'www.runoob.com')
+x.who()        # 正常输出
+x.foo()        # 正常输出
+x.__foo()      # 报错
+```
+以上实例执行结果：
+
+类的专有方法：
+__init__ : 构造函数，在生成对象时调用
+__del__ : 析构函数，释放对象时使用
+__repr__ : 打印，转换
+__setitem__ : 按照索引赋值
+__getitem__: 按照索引获取值
+__len__: 获得长度
+__cmp__: 比较运算
+__call__: 函数调用
+__add__: 加运算
+__sub__: 减运算
+__mul__: 乘运算
+__truediv__: 除运算
+__mod__: 求余运算
+__pow__: 乘方
+运算符重载
+Python同样支持运算符重载，我们可以对类的专有方法进行重载，实例如下：
+实例(Python 3.0+)
+```python
+#!/usr/bin/python3
+ 
+class Vector:
+   def __init__(self, a, b):
+      self.a = a
+      self.b = b
+ 
+   def __str__(self):
+      return 'Vector (%d, %d)' % (self.a, self.b)
+   
+   def __add__(self,other):
+      return Vector(self.a + other.a, self.b + other.b)
+ 
+v1 = Vector(2,10)
+v2 = Vector(5,-2)
+print (v1 + v2)
+```
+以上代码执行结果如下所示:
+Vector(7,8)
+
+
+### Python3 标准库概览
+操作系统接口
+os模块提供了不少与操作系统相关联的函数。
+```python
+>>> import os
+>>> os.getcwd()      # 返回当前的工作目录
+'C:\\Python34'
+>>> os.chdir('/server/accesslogs')   # 修改当前的工作目录
+>>> os.system('mkdir today')   # 执行系统命令 mkdir 
+0
+```
+建议使用 "import os" 风格而非 "from os import *"。这样可以保证随操作系统不同而有所变化的 os.open() 不会覆盖内置函数 open()。
+在使用 os 这样的大型模块时内置的 dir() 和 help() 函数非常有用:
+```python
+>>> import os
+>>> dir(os)
+<returns a list of all module functions>
+>>> help(os)
+<returns an extensive manual page created from the module's docstrings>
+```
+针对日常的文件和目录管理任务，:mod:shutil 模块提供了一个易于使用的高级接口:
+```python
+>>> import shutil
+>>> shutil.copyfile('data.db', 'archive.db')
+>>> shutil.move('/build/executables', 'installdir')
+```
+#### 文件通配符
+glob模块提供了一个函数用于从目录通配符搜索中生成文件列表:
+```python
+>>> import glob
+>>> glob.glob('*.py')
+['primes.py', 'random.py', 'quote.py']
+```
+#### 命令行参数
+通用工具脚本经常调用命令行参数。这些命令行参数以链表形式存储于 sys 模块的 argv 变量。例如在命令行中执行 "python demo.py one two three" 后可以得到以下输出结果:
+```python
+>>> import sys
+>>> print(sys.argv)
+```
+[Out] `['demo.py', 'one', 'two', 'three']`
+
+#### 错误输出重定向和程序终止
+sys 还有 stdin，stdout 和 stderr 属性，即使在 stdout 被重定向时，后者也可以用于显示警告和错误信息。
+```python
+>>> sys.stderr.write('Warning, log file not found starting a new one\n')
+```
+`Warning, log file not found starting a new one
+大多脚本的定向终止都使用 "sys.exit()"。`
+
+#### 字符串正则匹配
+re模块为高级字符串处理提供了正则表达式工具。对于复杂的匹配和处理，正则表达式提供了简洁、优化的解决方案:
+```python
+>>> import re
+>>> re.findall(r'\bf[a-z]*', 'which foot or hand fell fastest')
+['foot', 'fell', 'fastest']
+>>> re.sub(r'(\b[a-z]+) \1', r'\1', 'cat in the the hat')
+'cat in the hat'
+```
+如果只需要简单的功能，应该首先考虑字符串方法，因为它们非常简单，易于阅读和调试:
+```python
+>>> 'tea for too'.replace('too', 'two')
+'tea for two'
+```
+#### 数学
+math模块为浮点运算提供了对底层C函数库的访问:
+```python
+>>> import math
+>>> math.cos(math.pi / 4)
+0.70710678118654757
+>>> math.log(1024, 2)
+10.0
+```
+random提供了生成随机数的工具。
+```python
+>>> import random
+>>> random.choice(['apple', 'pear', 'banana'])
+'apple'
+>>> random.sample(range(100), 10)   # sampling without replacement
+[30, 83, 16, 4, 8, 81, 41, 50, 18, 33]
+>>> random.random()    # random float
+0.17970987693706186
+>>> random.randrange(6)    # random integer chosen from range(6)
+4
+```
+
+#### 访问 互联网
+有几个模块用于访问互联网以及处理网络通信协议。其中最简单的两个是用于处理从 urls 接收的数据的 urllib.request 以及用于发送电子邮件的 smtplib:
+```python
+>>> from urllib.request import urlopen
+>>> for line in urlopen('http://tycho.usno.navy.mil/cgi-bin/timer.pl'):
+...     line = line.decode('utf-8')  # Decoding the binary data to text.
+...     if 'EST' in line or 'EDT' in line:  # look for Eastern Time
+...         print(line)
+
+<BR>Nov. 25, 09:43:32 PM EST
+
+>>> import smtplib
+>>> server = smtplib.SMTP('localhost')
+>>> server.sendmail('soothsayer@example.org', 'jcaesar@example.org',
+... """To: jcaesar@example.org
+... From: soothsayer@example.org
+...
+... Beware the Ides of March.
+... """)
+>>> server.quit()
+```
+注意第二个例子需要本地有一个在运行的邮件服务器。
+
+#### 日期和时间
+datetime模块为日期和时间处理同时提供了简单和复杂的方法。
+支持日期和时间算法的同时，实现的重点放在更有效的处理和格式化输出。
+该模块还支持时区处理:
+```python
+>>> # dates are easily constructed and formatted
+>>> from datetime import date
+>>> now = date.today()
+>>> now
+datetime.date(2003, 12, 2)
+>>> now.strftime("%m-%d-%y. %d %b %Y is a %A on the %d day of %B.")
+'12-02-03. 02 Dec 2003 is a Tuesday on the 02 day of December.'
+
+>>> # dates support calendar arithmetic
+>>> birthday = date(1964, 7, 31)
+>>> age = now - birthday
+>>> age.days
+14368
+```
+#### 数据压缩
+以下模块直接支持通用的数据打包和压缩格式：zlib，gzip，bz2，zipfile，以及 tarfile。
+```python
+>>> import zlib
+>>> s = b'witch which has which witches wrist watch'
+>>> len(s)
+41
+>>> t = zlib.compress(s)
+>>> len(t)
+37
+>>> zlib.decompress(t)
+b'witch which has which witches wrist watch'
+>>> zlib.crc32(s)
+226805979
+```
+
+#### 性能度量
+有些用户对了解解决同一问题的不同方法之间的性能差异很感兴趣。Python 提供了一个度量工具，为这些问题提供了直接答案。
+例如，使用元组封装和拆封来交换元素看起来要比使用传统的方法要诱人的多,timeit 证明了现代的方法更快一些。
+```python
+>>> from timeit import Timer
+>>> Timer('t=a; a=b; b=t', 'a=1; b=2').timeit()
+0.57535828626024577
+>>> Timer('a,b = b,a', 'a=1; b=2').timeit()
+0.54962537085770791
+```
+相对于 timeit 的细粒度，:mod:profile 和 pstats 模块提供了针对更大代码块的时间度量工具。
+#### 测试模块
+开发高质量软件的方法之一是为每一个函数开发测试代码，并且在开发过程中经常进行测试
+doctest模块提供了一个工具，扫描模块并根据程序中内嵌的文档字符串执行测试。
+测试构造如同简单的将它的输出结果剪切并粘贴到文档字符串中。
+通过用户提供的例子，它强化了文档，允许 doctest 模块确认代码的结果是否与文档一致:
+```python
+def average(values):
+    """Computes the arithmetic mean of a list of numbers.
+
+    >>> print(average([20, 30, 70]))
+    40.0
+    """
+    return sum(values) / len(values)
+```
+```python
+import doctest
+doctest.testmod()   # 自动验证嵌入测试
+```
+unittest模块不像 doctest模块那么容易使用，不过它可以在一个独立的文件里提供一个更全面的测试集:
+```python
+import unittest
+
+class TestStatisticalFunctions(unittest.TestCase):
+
+    def test_average(self):
+        self.assertEqual(average([20, 30, 70]), 40.0)
+        self.assertEqual(round(average([1, 5, 7]), 1), 4.3)
+        self.assertRaises(ZeroDivisionError, average, [])
+        self.assertRaises(TypeError, average, 20, 30, 70)
+
+unittest.main() # Calling from the command line invokes all tests
+```
+
+### Python3 正则表达式
+正则表达式是一个特殊的字符序列，它能帮助你方便的检查一个字符串是否与某种模式匹配。
+Python 自1.5版本起增加了re 模块，它提供 Perl 风格的正则表达式模式。
+re 模块使 Python 语言拥有全部的正则表达式功能。
+compile 函数根据一个模式字符串和可选的标志参数生成一个正则表达式对象。该对象拥有一系列方法用于正则表达式匹配和替换。
+re 模块也提供了与这些方法功能完全一致的函数，这些函数使用一个模式字符串做为它们的第一个参数。
+本章节主要介绍 Python 中常用的正则表达式处理函数，如果你对正则表达式不了解，可以查看我们的 正则表达式 - 教程。
+#### re.match函数
+re.match 尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。
+函数语法：
+```python
+re.match(pattern, string, flags=0)
+```
+函数参数说明：
+|参数	|描述|
+|-|-|
+|pattern	|匹配的正则表达式|
+|string|	要匹配的字符串。|
+flags|	标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。参见：正则表达式修饰符 - 可选标志|
+
+匹配成功re.match方法返回一个匹配的对象，否则返回None。
+我们可以使用group(num) 或 groups() 匹配对象函数来获取匹配表达式。
+匹配对象方法	描述
+|group(num=0)	|匹配的整个表达式的字符串，group() 可以一次输入多个组号，在这种情况下它将返回一个包含那些组所对应值的元组。|
+|-|-|
+|groups()	|返回一个包含所有小组字符串的元组，从 1 到 所含的小组号。|
+实例
+```python
+#!/usr/bin/python
+ 
+import re
+print(re.match('www', 'www.runoob.com').span())  # 在起始位置匹配
+print(re.match('com', 'www.runoob.com'))         # 不在起始位置匹配
+```
+以上实例运行输出结果为：
+(0, 3)
+None
+实例
+```python
+#!/usr/bin/python3
+import re
+ 
+line = "Cats are smarter than dogs"
+# .* 表示任意匹配除换行符（\n、\r）之外的任何单个或多个字符
+matchObj = re.match( r'(.*) are (.*?) .*', line, re.M|re.I)
+ 
+if matchObj:
+   print ("matchObj.group() : ", matchObj.group())
+   print ("matchObj.group(1) : ", matchObj.group(1))
+   print ("matchObj.group(2) : ", matchObj.group(2))
+else:
+   print ("No match!!")
+```
+以上实例执行结果如下：
+```
+matchObj.group() :  Cats are smarter than dogs
+matchObj.group(1) :  Cats
+matchObj.group(2) :  smarter
+```
+#### re.search方法
+re.search 扫描整个字符串并返回第一个成功的匹配。
+函数语法：
+```python
+re.search(pattern, string, flags=0)
+```
+函数参数说明：
+pattern	：匹配的正则表达式
+string	：要匹配的字符串。
+flags	：标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。参见：正则表达式修饰符 - 可选标志
+
+
+匹配成功re.search方法返回一个匹配的对象，否则返回None。
+我们可以使用group(num) 或 groups() 匹配对象函数来获取匹配表达式。
+group(num=0)	：匹配的整个表达式的字符串，group() 可以一次输入多个组号，在这种情况下它将返回一个包含那些组所对应值的元组。
+groups()	：返回一个包含所有小组字符串的元组，从 1 到 所含的小组号。
+```python
+实例
+#!/usr/bin/python3
+ 
+import re
+ 
+print(re.search('www', 'www.runoob.com').span())  # 在起始位置匹配
+print(re.search('com', 'www.runoob.com').span())         # 不在起始位置匹配
+```
+以上实例运行输出结果为：
+```
+(0, 3)
+(11, 14)
+```
+实例
+```python
+#!/usr/bin/python3
+ 
+import re
+ 
+line = "Cats are smarter than dogs";
+ 
+searchObj = re.search( r'(.*) are (.*?) .*', line, re.M|re.I)
+ 
+if searchObj:
+   print ("searchObj.group() : ", searchObj.group())
+   print ("searchObj.group(1) : ", searchObj.group(1))
+   print ("searchObj.group(2) : ", searchObj.group(2))
+else:
+   print ("Nothing found!!")
+```   
+以上实例执行结果如下：
+```
+searchObj.group() :  Cats are smarter than dogs
+searchObj.group(1) :  Cats
+searchObj.group(2) :  smarter
+```
+re.match与re.search的区别
+re.match只匹配字符串的开始，如果字符串开始不符合正则表达式，则匹配失败，函数返回None；而re.search匹配整个字符串，直到找到一个匹配。
+实例
+```python
+#!/usr/bin/python3
+ 
+import re
+ 
+line = "Cats are smarter than dogs";
+ 
+matchObj = re.match( r'dogs', line, re.M|re.I)
+if matchObj:
+   print ("match --> matchObj.group() : ", matchObj.group())
+else:
+   print ("No match!!")
+
+matchObj = re.search( r'dogs', line, re.M|re.I)
+if matchObj:
+   print ("search --> matchObj.group() : ", matchObj.group())
+else:
+   print ("No match!!")
+```
+以上实例运行结果如下：
+```
+No match!!
+search --> matchObj.group() :  dogs
+```
+#### 检索和替换
+Python 的re模块提供了re.sub用于替换字符串中的匹配项。
+语法：
+```python
+re.sub(pattern, repl, string, count=0, flags=0)
+```
+参数：
+pattern : 正则中的模式字符串。
+repl : 替换的字符串，也可为一个函数。
+string : 要被查找替换的原始字符串。
+count : 模式匹配后替换的最大次数，默认 0 表示替换所有的匹配。
+flags : 编译时用的匹配模式，数字形式。
+前三个为必选参数，后两个为可选参数。
+实例
+```python
+#!/usr/bin/python3
+import re
+ 
+phone = "2004-959-559 # 这是一个电话号码"
+ 
+# 删除注释
+num = re.sub(r'#.*$', "", phone)
+print ("电话号码 : ", num)
+ 
+# 移除非数字的内容
+num = re.sub(r'\D', "", phone)
+print ("电话号码 : ", num)
+```
+以上实例执行结果如下：
+```
+电话号码 :  2004-959-559 
+电话号码 :  2004959559
+```
+#### repl 参数是一个函数
+以下实例中将字符串中的匹配的数字乘于 2：
+实例
+```python
+#!/usr/bin/python
+ 
+import re
+ 
+# 将匹配的数字乘于 2
+def double(matched):
+    value = int(matched.group('value'))
+    return str(value * 2)
+ 
+s = 'A23G4HFD567'
+print(re.sub('(?P<value>\d+)', double, s))
+```
+执行输出结果为：
+```
+A46G8HFD1134
+```
+
+#### compile 函数
+compile 函数用于编译正则表达式，生成一个正则表达式（ Pattern ）对象，供 match() 和 search() 这两个函数使用。
+语法格式为：
+```python
+re.compile(pattern[, flags])
+```
+参数：
+pattern : 一个字符串形式的正则表达式
+flags 可选，表示匹配模式，比如忽略大小写，多行模式等，具体参数为：
+re.I 忽略大小写
+re.L 表示特殊字符集 \w, \W, \b, \B, \s, \S 依赖于当前环境
+re.M 多行模式
+re.S 即为' . '并且包括换行符在内的任意字符（' . '不包括换行符）
+re.U 表示特殊字符集 \w, \W, \b, \B, \d, \D, \s, \S 依赖于 Unicode 字符属性数据库
+re.X 为了增加可读性，忽略空格和' # '后面的注释
+实例
+```python
+>>>import re
+>>> pattern = re.compile(r'\d+')                    # 用于匹配至少一个数字
+>>> m = pattern.match('one12twothree34four')        # 查找头部，没有匹配
+>>> print m
+None
+>>> m = pattern.match('one12twothree34four', 2, 10) # 从'e'的位置开始匹配，没有匹配
+>>> print m
+None
+>>> m = pattern.match('one12twothree34four', 3, 10) # 从'1'的位置开始匹配，正好匹配
+>>> print m                                         # 返回一个 Match 对象
+<_sre.SRE_Match object at 0x10a42aac0>
+>>> m.group(0)   # 可省略 0
+'12'
+>>> m.start(0)   # 可省略 0
+3
+>>> m.end(0)     # 可省略 0
+5
+>>> m.span(0)    # 可省略 0
+(3, 5)
+```
+在上面，当匹配成功时返回一个 Match 对象，其中：
+group([group1, …]) 方法用于获得一个或多个分组匹配的字符串，当要获得整个匹配的子串时，可直接使用 group() 或 group(0)；
+start([group]) 方法用于获取分组匹配的子串在整个字符串中的起始位置（子串第一个字符的索引），参数默认值为 0；
+end([group]) 方法用于获取分组匹配的子串在整个字符串中的结束位置（子串最后一个字符的索引+1），参数默认值为 0；
+span([group]) 方法返回 (start(group), end(group))。
+再看看一个例子：
+实例
+```python
+>>>import re
+>>> pattern = re.compile(r'([a-z]+) ([a-z]+)', re.I)   # re.I 表示忽略大小写
+>>> m = pattern.match('Hello World Wide Web')
+>>> print m                               # 匹配成功，返回一个 Match 对象
+<_sre.SRE_Match object at 0x10bea83e8>
+>>> m.group(0)                            # 返回匹配成功的整个子串
+'Hello World'
+>>> m.span(0)                             # 返回匹配成功的整个子串的索引
+(0, 11)
+>>> m.group(1)                            # 返回第一个分组匹配成功的子串
+'Hello'
+>>> m.span(1)                             # 返回第一个分组匹配成功的子串的索引
+(0, 5)
+>>> m.group(2)                            # 返回第二个分组匹配成功的子串
+'World'
+>>> m.span(2)                             # 返回第二个分组匹配成功的子串索引
+(6, 11)
+>>> m.groups()                            # 等价于 (m.group(1), m.group(2), ...)
+('Hello', 'World')
+>>> m.group(3)                 # 不存在第三个分组
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: no such group
+```
+#### findall
+
+在字符串中找到正则表达式所匹配的所有子串，并返回一个列表，如果没有找到匹配的，则返回空列表。
+注意： match 和 search 是匹配一次 findall 匹配所有。
+语法格式为：
+```python
+findall(string[, pos[, endpos]])
+```
+参数：
+string 待匹配的字符串。
+pos 可选参数，指定字符串的起始位置，默认为 0。
+endpos 可选参数，指定字符串的结束位置，默认为字符串的长度。
+查找字符串中的所有数字：
+实例
+```python
+import re
+ 
+pattern = re.compile(r'\d+')   # 查找数字
+result1 = pattern.findall('runoob 123 google 456')
+result2 = pattern.findall('run88oob123google456', 0, 10)
+ 
+print(result1)
+print(result2)
+```
+输出结果：
+```
+['123', '456']
+['88', '12']
+```
+#### re.finditer
+和 findall 类似，在字符串中找到正则表达式所匹配的所有子串，并把它们作为一个迭代器返回。
+re.finditer(pattern, string, flags=0)
+参数：
+参数	描述
+pattern	匹配的正则表达式
+string	要匹配的字符串。
+flags	标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。参见：正则表达式修饰符 - 可选标志
+实例
+```python
+import re
+ 
+it = re.finditer(r"\d+","12a32bc43jf3") 
+for match in it: 
+    print (match.group() )
+```
+输出结果：
+```
+12 
+32 
+43 
+3
+```
+#### re.split
+split 方法按照能够匹配的子串将字符串分割后返回列表，它的使用形式如下：
+re.split(pattern, string[, maxsplit=0, flags=0])
+参数：
+pattern:匹配的正则表达式
+string	:要匹配的字符串。
+maxsplit	:分隔次数，maxsplit=1 分隔一次，默认为 0，不限制次数。
+flags	:标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。参见：正则表达式修饰符 - 可选标志
+实例
+```python
+>>>import re
+>>> re.split('\W+', 'runoob, runoob, runoob.')
+['runoob', 'runoob', 'runoob', '']
+>>> re.split('(\W+)', ' runoob, runoob, runoob.') 
+['', ' ', 'runoob', ', ', 'runoob', ', ', 'runoob', '.', '']
+>>> re.split('\W+', ' runoob, runoob, runoob.', 1) 
+['', 'runoob, runoob, runoob.']
+ 
+>>> re.split('a*', 'hello world')   # 对于一个找不到匹配的字符串而言，split 不会对其作出分割
+['hello world']
+```
+#### 正则表达式对象
+>### re.RegexObject
+re.compile() 返回 RegexObject 对象。
+>### re.MatchObject
+group() 返回被 RE 匹配的字符串。
+- start() 返回匹配开始的位置
+- end() 返回匹配结束的位置
+- span() 返回一个元组包含匹配 (开始,结束) 的位置
+>### 正则表达式修饰符 - 可选标志
+正则表达式可以包含一些可选标志修饰符来控制匹配的模式。修饰符被指定为一个可选的标志。多个标志可以通过按位 OR(|) 它们来指定。如 re.I | re.M 被设置成 I 和 M 标志：
+re.I	: 使匹配对大小写不敏感
+re.L	: 做本地化识别（locale-aware）匹配
+re.M	: 多行匹配，影响 ^ 和 $
+re.S	: 匹配包括换行在内的所有字符
+re.U	: 根据Unicode字符集解析字符。这个标志影响 \w, \W, \b, \B.
+re.X	: 该标志通过给予你更灵活的格式以便你将正则表达式写得更易于理解。
+
+>### 正则表达式模式
+模式字符串使用特殊的语法来表示一个正则表达式：
+字母和数字表示他们自身。一个正则表达式模式中的字母和数字匹配同样的字符串。
+多数字母和数字前加一个反斜杠时会拥有不同的含义。
+标点符号只有被转义时才匹配自身，否则它们表示特殊的含义。
+反斜杠本身需要使用反斜杠转义。
+由于正则表达式通常都包含反斜杠，所以你最好使用原始字符串来表示它们。模式元素(如 r'\t'，等价于 \\t )匹配相应的特殊字符。
+下表列出了正则表达式模式语法中的特殊元素。如果你使用模式的同时提供了可选的标志参数，某些模式元素的含义会改变。
+>模式	/ 描述
+^	: 匹配字符串的开头
+$	: 匹配字符串的末尾。
+.	: 匹配任意字符，除了换行符，当re.DOTALL标记被指定时，则可以匹配包括换行符的任意字符。
+[...]	: 用来表示一组字符,单独列出：[amk] 匹配 'a'，'m'或'k'
+[^...]	: 不在[]中的字符：[^abc] 匹配除了a,b,c之外的字符。
+re*	: 匹配0个或多个的表达式。
+re+	: 匹配1个或多个的表达式。
+re?	: 匹配0个或1个由前面的正则表达式定义的片段，非贪婪方式
+re{ n}	: 匹配n个前面表达式。例如，"o{2}"不能匹配"Bob"中的"o"，但是能匹配"food"中的两个o。
+re{ n,}	: 精确匹配n个前面表达式。例如，"o{2,}"不能匹配"Bob"中的"o"，但能匹配"foooood"中的所有o。"o{1,}"等价于"o+"。"o{0,}"则等价于"o*"。
+re{ n, m}	: 匹配 n 到 m 次由前面的正则表达式定义的片段，贪婪方式
+a| b	: 匹配a或b
+(re)	: 匹配括号内的表达式，也表示一个组
+(?imx)	: 正则表达式包含三种可选标志：i, m, 或 x 。只影响括号中的区域。
+(?-imx)	: 正则表达式关闭 i, m, 或 x 可选标志。只影响括号中的区域。
+(?: re)	: 类似 (...), 但是不表示一个组
+(?imx: re)	: 在括号中使用i, m, 或 x 可选标志
+(?-imx: re)	: 在括号中不使用i, m, 或 x 可选标志
+(?#...)	: 注释.
+(?= re)	: 前向肯定界定符。如果所含正则表达式，以 ... 表示，在当前位置成功匹配时成功，否则失败。但一旦所含表达式已经尝试，匹配引擎根本没有提高；模式的剩余部分还要尝试界定符的右边。
+(?! re)	: 前向否定界定符。与肯定界定符相反；当所含表达式不能在字符串当前位置匹配时成功。
+(?> re)	: 匹配的独立模式，省去回溯。
+\w	: 匹配数字字母下划线
+\W	: 匹配非数字字母下划线
+\s	: 匹配任意空白字符，等价于 [\t\n\r\f]。
+\S	: 匹配任意非空字符
+\d	: 匹配任意数字，等价于 [0-9]。
+\D	: 匹配任意非数字
+\A	: 匹配字符串开始
+\Z	: 匹配字符串结束，如果是存在换行，只匹配到换行前的结束字符串。
+\z	: 匹配字符串结束
+\G	: 匹配最后匹配完成的位置。
+\b	: 匹配一个单词边界，也就是指单词和空格间的位置。例如， 'er\b' 可以匹配"never" 中的 'er'，但不能匹配 "verb" 中的 'er'。
+\B	: 匹配非单词边界。'er\B' 能匹配 "verb" 中的 'er'，但不能匹配 "never" 中的 'er'。
+\n, \t, 等。	: 匹配一个换行符。匹配一个制表符, 等
+\1...\9	: 匹配第n个分组的内容。
+\10	: 匹配第n个分组的内容，如果它经匹配。否则指的是八进制字符码的表达式。
+>### 正则表达式实例
+>字符匹配
+实例	/ 描述
+python	: 匹配 "python".
+
+>字符类
+实例	/ 描述
+[Pp]ython	: 匹配 "Python" 或 "python"
+rub[ye]	: 匹配 "ruby" 或 "rube"
+[aeiou]	: 匹配中括号内的任意一个字母
+[0-9]	: 匹配任何数字。类似于 [0123456789]
+[a-z]	: 匹配任何小写字母
+[A-Z]	: 匹配任何大写字母
+[a-zA-Z0-9]	: 匹配任何字母及数字
+[^aeiou]	: 除了aeiou字母以外的所有字符
+[^0-9]	: 匹配除了数字外的字符
+
+>特殊字符类
+实例	/ 描述
+.	: 匹配除 "\n" 之外的任何单个字符。要匹配包括 '\n' 在内的任何字符，请使用象 '[.\n]' 的模式。
+\d	: 匹配一个数字字符。等价于 [0-9]。
+\D	: 匹配一个非数字字符。等价于 [^0-9]。
+\s	: 匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。
+\S	: 匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。
+\w	: 匹配包括下划线的任何单词字符。等价于'[A-Za-z0-9_]'。
+\W	: 匹配任何非单词字符。等价于 '[^A-Za-z0-9_]'。
+
+### CGI是什麼?
+
+通用網關接口或CGI，是一組定義信息如何在Web服務器和自定義腳本之間交換的標準。
+CGI規範目前保持是由NCSA 和 NCSA 維護和定義如下。
+通用網關接口或CGI，是外部網關方案，如HTTP服務器的信息服務器的接口標準。
+目前的版本是CGI/1.1，而CGI/1.2目前正在定製中。
+
+### 網頁瀏覽
+要了解CGI的概念，讓我們看看當點擊一個超鏈接，瀏覽某一個網頁或URL發生什麼情況。
+瀏覽器觸發HTTP Web服務器和網址也就是文件名的請求。
+Web服務器將解析URL，並尋找，如果找到該文件，然後將其發送回瀏覽器中的文件名，否則將表示請求了錯誤文件的錯誤消息。
+Web瀏覽器需要從Web服務器和顯示器接收到的文件信息或錯誤信息的響應。
+然而，也可以設置在HTTP服務器，以便每當在某個目錄中的文件被請求文件不被發送回;相反，它被執行的程序，無論該程序的輸出被發送回瀏覽器顯示。此函數被稱為公共網關接口CGI或與程序稱為CGI腳本。這些CGI程序可以是一個Python腳本，Perl腳本，Shell腳本，C或C++程序等等。![](https://i.imgur.com/4iA30Qj.png)
+### Web 服务器支持及配置
+在你进行 CGI 编程前，确保您的 Web 服务器支持 CGI 及已经配置了 CGI 的处理程序。
+Apache 支持 CGI 配置：
+设置好CGI目录：
+`ScriptAlias /cgi-bin/ /var/www/cgi-bin/`
+所有的HTTP服务器执行 CGI 程序都保存在一个预先配置的目录。这个目录被称为 CGI 目录，并按照惯例，它被命名为 /var/www/cgi-bin 目录。
+CGI 文件的扩展名为 .cgi，python 也可以使用 .py 扩展名。
+默认情况下，Linux 服务器配置运行的 cgi-bin 目录中为 /var/www。
+如果你想指定其他运行 CGI 脚本的目录，可以修改 httpd.conf 配置文件，如下所示：
+```python
+<Directory "/var/www/cgi-bin">
+   AllowOverride None
+   Options +ExecCGI
+   Order allow,deny
+   Allow from all
+</Directory>
+```
+在 AddHandler 中添加 `.py` 后缀，这样我们就可以访问 .py 结尾的 python 脚本文件：
+`AddHandler cgi-script .cgi .pl .py`
+### 第一个CGI程序
+我们使用 Python 创建第一个 CGI 程序，文件名为 hello.py，文件位于 `/var/www/cgi-bin `目录中，内容如下：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+print "Content-type:text/html"
+print                               # 空行，告诉服务器结束头部
+print '<html>'
+print '<head>'
+print '<meta charset="utf-8">'
+print '<title>Hello World - 我的第一个 CGI 程序！</title>'
+print '</head>'
+print '<body>'
+print '<h2>Hello World! 我是来自菜鸟教程的第一CGI程序</h2>'
+print '</body>'
+print '</html>'
+```
+文件保存后修改 hello.py，修改文件权限为 755：
+`chmod 755 hello.py `
+以上程序在浏览器访问 http://localhost/cgi-bin/hello.py 显示结果如下：
+`Hello World! 我是来自菜鸟教程的第一CGI程序`
+这个的hello.py脚本是一个简单的Python脚本，脚本第一行的输出内容"Content-type:text/html"发送到浏览器并告知浏览器显示的内容类型为"text/html"。
+用 print 输出一个空行用于告诉服务器结束头部信息。
+### HTTP头部
+hello.py文件内容中的" Content-type:text/html"即为HTTP头部的一部分，它会发送给浏览器告诉浏览器文件的内容类型。
+HTTP头部的格式如下：
+`HTTP 字段名: 字段内容`
+例如：
+`Content-type: text/html`
+以下介绍了CGI程序中HTTP头部经常使用的信息：
+`Content-type:`	 : 请求的与实体对应的MIME信息。例如: Content-type:text/html
+`Expires: Date`:	响应过期的日期和时间
+`Location: URL`:	用来重定向接收方到非请求URL的位置来完成请求或标识新的资源
+`Last-modified: Date`:	请求资源的最后修改时间
+`Content-length: N`:	请求的内容长度
+`Set-Cookie: String	`:设置Http Cookie
+### CGI环境变量
+所有的CGI程序都接收以下的环境变量，这些变量在CGI程序中发挥了重要的作用：
+|变量名|	描述|
+|-|-|
+CONTENT_TYPE|	这个环境变量的值指示所传递来的信息的MIME类型。目前，环境变量CONTENT_TYPE一般都是：application/x-www-form-urlencoded,他表示数据来自于HTML表单。|
+CONTENT_LENGTH	|如果服务器与CGI程序信息的传递方式是POST，这个环境变量即使从标准输入STDIN中可以读到的有效数据的字节数。这个环境变量在读取所输入的数据时必须使用。|
+HTTP_COOKIE|	客户机内的 COOKIE 内容。|
+HTTP_USER_AGENT	|提供包含了版本数或其他专有数据的客户浏览器信息。|
+PATH_INFO	|这个环境变量的值表示紧接在CGI程序名之后的其他路径信息。它常常作为CGI程序的参数出现。|
+QUERY_STRING	|如果服务器与CGI程序信息的传递方式是GET，这个环境变量的值即使所传递的信息。这个信息经跟在CGI程序名的后面，两者中间用一个问号'?'分隔。|
+REMOTE_ADDR|	这个环境变量的值是发送请求的客户机的IP地址，例如上面的192.168.1.67。这个值总是存在的。而且它是Web客户机需要提供给Web服务器的唯一标识，可以在CGI程序中用它来区分不同的Web客户机。|
+REMOTE_HOST	|这个环境变量的值包含发送CGI请求的客户机的主机名。如果不支持你想查询，则无需定义此环境变量。|
+REQUEST_METHOD	|提供脚本被调用的方法。对于使用 HTTP/1.0 协议的脚本，仅 GET 和 POST 有意义。|
+SCRIPT_FILENAME	|CGI脚本的完整路径|
+SCRIPT_NAME	|CGI脚本的的名称|
+SERVER_NAME	|这是你的 WEB 服务器的主机名、别名或IP地址。|
+SERVER_SOFTWARE	|这个环境变量的值包含了调用CGI程序的HTTP服务器的名称和版本号。例如，上面的值为Apache/2.2.14(Unix)|
+以下是一个简单的CGI脚本输出CGI的环境变量：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+# filename:test.py
+
+import os
+
+print "Content-type: text/html"
+print
+print "<meta charset=\"utf-8\">"
+print "<b>环境变量</b><br>";
+print "<ul>"
+for key in os.environ.keys():
+    print "<li><span style='color:green'>%30s </span> : %s </li>" % (key,os.environ[key])
+print "</ul>"
+```
+将以上点保存为 test.py ,并修改文件权限为 755，执行结果如下：
+![](https://i.imgur.com/JBy3x3g.png)
+
+### GET和POST方法
+浏览器客户端通过两种方法向服务器传递信息，这两种方法就是 GET 方法和 POST 方法。
+使用GET方法传输数据
+GET方法发送编码后的用户信息到服务端，数据信息包含在请求页面的URL上，以"?"号分割, 如下所示：
+```
+http://www.test.com/cgi-bin/hello.py?key1=value1&key2=value2
+```
+有关 GET 请求的其他一些注释：
+GET 请求可被缓存
+GET 请求保留在浏览器历史记录中
+GET 请求可被收藏为书签
+GET 请求不应在处理敏感数据时使用
+GET 请求有长度限制
+GET 请求只应当用于取回数据
+### 简单的url实例：GET方法
+以下是一个简单的URL，使用GET方法向hello_get.py程序发送两个参数：
+```python
+/cgi-bin/test.py?name=菜鸟教程&url=http://www.runoob.com
+```
+以下为hello_get.py文件的代码：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# filename：test.py
+
+# CGI处理模块
+import cgi, cgitb 
+
+# 创建 FieldStorage 的实例化
+form = cgi.FieldStorage() 
+
+# 获取数据
+site_name = form.getvalue('name')
+site_url  = form.getvalue('url')
+
+print "Content-type:text/html"
+print
+print "<html>"
+print "<head>"
+print "<meta charset=\"utf-8\">"
+print "<title>菜鸟教程 CGI 测试实例</title>"
+print "</head>"
+print "<body>"
+print "<h2>%s官网：%s</h2>" % (site_name, site_url)
+print "</body>"
+print "</html>"
+```
+文件保存后修改 hello_get.py，修改文件权限为 755：
+`chmod 755 hello_get.py `
+
+### 简单的表单实例：GET方法
+以下是一个通过HTML的表单使用GET方法向服务器发送两个数据，提交的服务器脚本同样是hello_get.py文件，hello_get.html 代码如下：
+```python
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+<form action="/cgi-bin/hello_get.py" method="get">
+站点名称: <input type="text" name="name">  <br />
+
+站点 URL: <input type="text" name="url" />
+<input type="submit" value="提交" />
+</form>
+</body>
+</html>
+```
+默认情况下 cgi-bin 目录只能存放脚本文件，我们将 hello_get.html 存储在 test 目录下，修改文件权限为 755：
+`chmod 755 hello_get.html`
+### 使用POST方法传递数据
+使用POST方法向服务器传递数据是更安全可靠的，像一些敏感信息如用户密码等需要使用POST传输数据。
+以下同样是hello_get.py ，它也可以处理浏览器提交的POST表单数据:
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# CGI处理模块
+import cgi, cgitb 
+
+# 创建 FieldStorage 的实例化
+form = cgi.FieldStorage() 
+
+# 获取数据
+site_name = form.getvalue('name')
+site_url  = form.getvalue('url')
+
+print "Content-type:text/html"
+print
+print "<html>"
+print "<head>"
+print "<meta charset=\"utf-8\">"
+print "<title>菜鸟教程 CGI 测试实例</title>"
+print "</head>"
+print "<body>"
+print "<h2>%s官网：%s</h2>" % (site_name, site_url)
+print "</body>"
+print "</html>"
+```
+以下为表单通过POST方法（method="post"）向服务器脚本 hello_get.py 提交数据:
+```python
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+<form action="/cgi-bin/hello_get.py" method="post">
+站点名称: <input type="text" name="name">  <br />
+
+站点 URL: <input type="text" name="url" />
+<input type="submit" value="提交" />
+</form>
+</body>
+</html>
+```
+### 通过CGI程序传递checkbox数据
+checkbox用于提交一个或者多个选项数据，HTML代码如下：
+```python
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+<form action="/cgi-bin/checkbox.py" method="POST" target="_blank">
+<input type="checkbox" name="runoob" value="on" /> 菜鸟教程
+<input type="checkbox" name="google" value="on" /> Google
+<input type="submit" value="选择站点" />
+</form>
+</body>
+</html>
+```
+以下为 checkbox.py 文件的代码：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# 引入 CGI 处理模块 
+import cgi, cgitb 
+
+# 创建 FieldStorage的实例 
+form = cgi.FieldStorage() 
+
+# 接收字段数据
+if form.getvalue('google'):
+   google_flag = "是"
+else:
+   google_flag = "否"
+
+if form.getvalue('runoob'):
+   runoob_flag = "是"
+else:
+   runoob_flag = "否"
+
+print "Content-type:text/html"
+print
+print "<html>"
+print "<head>"
+print "<meta charset=\"utf-8\">"
+print "<title>菜鸟教程 CGI 测试实例</title>"
+print "</head>"
+print "<body>"
+print "<h2> 菜鸟教程是否选择了 : %s</h2>" % runoob_flag
+print "<h2> Google 是否选择了 : %s</h2>" % google_flag
+print "</body>"
+print "</html>"
+```
+修改 checkbox.py 权限：
+`chmod 755 checkbox.py`
+
+### 通过CGI程序传递Radio数据
+Radio 只向服务器传递一个数据，HTML代码如下：
+```python
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+<form action="/cgi-bin/radiobutton.py" method="post" target="_blank">
+<input type="radio" name="site" value="runoob" /> 菜鸟教程
+<input type="radio" name="site" value="google" /> Google
+<input type="submit" value="提交" />
+</form>
+</body>
+</html>
+```
+radiobutton.py 脚本代码如下：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# 引入 CGI 处理模块 
+import cgi, cgitb 
+
+# 创建 FieldStorage的实例 
+form = cgi.FieldStorage() 
+
+# 接收字段数据
+if form.getvalue('site'):
+   site = form.getvalue('site')
+else:
+   site = "提交数据为空"
+
+print "Content-type:text/html"
+print
+print "<html>"
+print "<head>"
+print "<meta charset=\"utf-8\">"
+print "<title>菜鸟教程 CGI 测试实例</title>"
+print "</head>"
+print "<body>"
+print "<h2> 选中的网站是 %s</h2>" % site
+print "</body>"
+print "</html>"
+```
+修改 radiobutton.py 权限：
+`chmod 755 radiobutton.py`
+### 通过CGI程序传递 Textarea 数据
+Textarea 向服务器传递多行数据，HTML代码如下：
+```python
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+<form action="/cgi-bin/textarea.py" method="post" target="_blank">
+<textarea name="textcontent" cols="40" rows="4">
+在这里输入内容...
+</textarea>
+<input type="submit" value="提交" />
+</form>
+</body>
+</html>
+```
+textarea.py 脚本代码如下：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# 引入 CGI 处理模块 
+import cgi, cgitb 
+
+# 创建 FieldStorage的实例 
+form = cgi.FieldStorage() 
+
+# 接收字段数据
+if form.getvalue('textcontent'):
+   text_content = form.getvalue('textcontent')
+else:
+   text_content = "没有内容"
+
+print "Content-type:text/html"
+print
+print "<html>"
+print "<head>";
+print "<meta charset=\"utf-8\">"
+print "<title>菜鸟教程 CGI 测试实例</title>"
+print "</head>"
+print "<body>"
+print "<h2> 输入的内容是：%s</h2>" % text_content
+print "</body>"
+print "</html>"
+```
+修改 textarea.py 权限：
+`chmod 755 textarea.py`
+#### 通过CGI程序传递下拉数据。
+HTML 下拉框代码如下：
+```python
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+<form action="/cgi-bin/dropdown.py" method="post" target="_blank">
+<select name="dropdown">
+<option value="runoob" selected>菜鸟教程</option>
+<option value="google">Google</option>
+</select>
+<input type="submit" value="提交"/>
+</form>
+</body>
+</html>
+```
+dropdown.py 脚本代码如下所示：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# 引入 CGI 处理模块 
+import cgi, cgitb 
+
+# 创建 FieldStorage的实例 
+form = cgi.FieldStorage() 
+
+# 接收字段数据
+if form.getvalue('dropdown'):
+   dropdown_value = form.getvalue('dropdown')
+else:
+   dropdown_value = "没有内容"
+
+print "Content-type:text/html"
+print
+print "<html>"
+print "<head>"
+print "<meta charset=\"utf-8\">"
+print "<title>菜鸟教程 CGI 测试实例</title>"
+print "</head>"
+print "<body>"
+print "<h2> 选中的选项是：%s</h2>" % dropdown_value
+print "</body>"
+print "</html>"
+```
+修改 dropdown.py 权限：
+`chmod 755 dropdown.py`
+### CGI中使用Cookie
+在 http 协议一个很大的缺点就是不对用户身份的进行判断，这样给编程人员带来很大的不便， 而 cookie 功能的出现弥补了这个不足。
+cookie 就是在客户访问脚本的同时，通过客户的浏览器，在客户硬盘上写入纪录数据 ，当下次客户访问脚本时取回数据信息，从而达到身份判别的功能，cookie 常用在身份校验中。
+　
+>### cookie的语法
+http cookie的发送是通过http头部来实现的，他早于文件的传递，头部set-cookie的语法如下：
+Set-cookie:name=name;expires=date;path=path;domain=domain;secure 
+name=name: 需要设置cookie的值(name不能使用";"和","号),有多个name值时用 ";" 分隔，例如：name1=name1;name2=name2;name3=name3。
+expires=date: cookie的有效期限,格式： expires="Wdy,DD-Mon-YYYY HH:MM:SS"
+path=path: 设置cookie支持的路径,如果path是一个路径，则cookie对这个目录下的所有文件及子目录生效，例如： path="/cgi-bin/"，如果path是一个文件，则cookie指对这个文件生效，例如：path="/cgi-bin/cookie.cgi"。
+domain=domain: 对cookie生效的域名，例如：domain="www.runoob.com"
+secure: 如果给出此标志，表示cookie只能通过SSL协议的https服务器来传递。
+cookie的接收是通过设置环境变量HTTP_COOKIE来实现的，CGI程序可以通过检索该变量获取cookie信息。
+Cookie设置
+Cookie的设置非常简单，cookie会在http头部单独发送。以下实例在cookie中设置了name 和 expires：
+```pyrhon
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+# 
+print 'Content-Type: text/html'
+print 'Set-Cookie: name="菜鸟教程";expires=Wed, 28 Aug 2016 18:30:00 GMT'
+print
+print """
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>菜鸟教程(runoob.com)</title>
+    </head>
+    <body>
+        <h1>Cookie set OK!</h1>
+    </body>
+</html>
+"""
+```
+将以上代码保存到 cookie_set.py，并修改 cookie_set.py 权限：
+`chmod 755 cookie_set.py`
+以上实例使用了 Set-Cookie 头信息来设置Cookie信息，可选项中设置了Cookie的其他属性，如过期时间Expires，域名Domain，路径Path。这些信息设置在 "Content-type:text/html"之前。
+检索Cookie信息
+Cookie信息检索页非常简单，Cookie信息存储在CGI的环境变量HTTP_COOKIE中，存储格式如下：
+`key1=value1;key2=value2;key3=value3....`
+以下是一个简单的CGI检索cookie信息的程序：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# 导入模块
+import os
+import Cookie
+
+print "Content-type: text/html"
+print
+
+print """
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+<h1>读取cookie信息</h1>
+"""
+
+if 'HTTP_COOKIE' in os.environ:
+    cookie_string=os.environ.get('HTTP_COOKIE')
+    c=Cookie.SimpleCookie()
+    c.load(cookie_string)
+
+    try:
+        data=c['name'].value
+        print "cookie data: "+data+"<br>"
+    except KeyError:
+        print "cookie 没有设置或者已过去<br>"
+print """
+</body>
+</html>
+
+"""
+```
+将以上代码保存到 cookie_get.py，并修改 cookie_get.py 权限：
+`chmod 755 cookie_get.py`
+以上 cookie 设置颜色 Gif 如下所示：
+
+文件上传实例
+HTML设置上传文件的表单需要设置 enctype 属性为 multipart/form-data，代码如下所示：
+```python
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+ <form enctype="multipart/form-data" 
+                     action="/cgi-bin/save_file.py" method="post">
+   <p>选中文件: <input type="file" name="filename" /></p>
+   <p><input type="submit" value="上传" /></p>
+   </form>
+</body>
+</html>
+```
+save_file.py脚本文件代码如下：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import cgi, os
+import cgitb; cgitb.enable()
+
+form = cgi.FieldStorage()
+
+# 获取文件名
+fileitem = form['filename']
+
+# 检测文件是否上传
+if fileitem.filename:
+   # 设置文件路径 
+   fn = os.path.basename(fileitem.filename)
+   open('/tmp/' + fn, 'wb').write(fileitem.file.read())
+
+   message = '文件 "' + fn + '" 上传成功'
+   
+else:
+   message = '文件没有上传'
+   
+print """\
+Content-Type: text/html\n
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+   <p>%s</p>
+</body>
+</html>
+""" % (message,)
+```
+将以上代码保存到 save_file.py，并修改 save_file.py 权限：
+`chmod 755 save_file.py`
+以上 cookie 设置颜色 Gif 如下所示：
+
+如果你使用的系统是Unix/Linux，你必须替换文件分隔符，在window下只需要使用open()语句即可：
+> fn = os.path.basename(fileitem.filename.replace("\\", "/" ))
+
+### 文件下载对话框
+我们先在当前目录下创建 foo.txt 文件，用于程序的下载。
+文件下载通过设置HTTP头信息来实现，功能代码如下：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+# HTTP 头部
+print "Content-Disposition: attachment; filename=\"foo.txt\"";
+print
+# 打开文件
+fo = open("foo.txt", "rb")
+
+str = fo.read();
+print str
+
+# 关闭文件
+fo.close()
+```
+## Python 操作 MySQL 数据库
+Python 标准数据库接口为 Python DB-API，Python DB-API为开发人员提供了数据库应用编程接口。
+Python 数据库接口支持非常多的数据库，你可以选择适合你项目的数据库：
+>GadFly
+mSQL
+MySQL
+PostgreSQL
+Microsoft SQL Server 2000
+Informix
+Interbase
+Oracle
+Sybase
+
+你可以访问Python数据库接口及API查看详细的支持数据库列表。
+不同的数据库你需要下载不同的DB API模块，例如你需要访问Oracle数据库和Mysql数据，你需要下载Oracle和MySQL数据库模块。
+DB-API 是一个规范. 它定义了一系列必须的对象和数据库存取方式, 以便为各种各样的底层数据库系统和多种多样的数据库接口程序提供一致的访问接口 。
+Python的DB-API，为大多数的数据库实现了接口，使用它连接各数据库后，就可以用相同的方式操作各数据库。
+Python DB-API使用流程：
+>引入 API 模块。
+获取与数据库的连接。
+执行SQL语句和存储过程。
+关闭数据库连接。
+
+### 什么是MySQLdb?
+MySQLdb 是用于Python链接Mysql数据库的接口，它实现了 Python 数据库 API 规范 V2.0，基于 MySQL C API 上建立的。
+### 如何安装MySQLdb?
+为了用DB-API编写MySQL脚本，必须确保已经安装了MySQL。复制以下代码，并执行：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb
+```
+如果执行后的输出结果如下所示，意味着你没有安装 MySQLdb 模块：
+```python
+Traceback (most recent call last):
+  File "test.py", line 3, in <module>
+    import MySQLdb
+ImportError: No module named MySQLdb
+```
+事先安装MySQLdb，请访问 (linux系統）https://pypi.python.org/pypi/MySQL-python
+>相关资源下载链接如下：
+>Python2.7（个人觉得这个版本语句兼容性高，适合入门）：
+>https://blog.python.org/2018/05/python-2715-released.html
+>Mysql8.0.12（请根据自己需要选择版本）：
+>https://dev.mysql.com/downloads/installer/
+>Mysql官方数据库连接器（请根据自己需要选择）：
+>https://dev.mysql.com/downloads/connector/python/
+从这里可选择适合您的平台的安装包，分为预编译的二进制文件和源代码安装包。
+如果您选择二进制文件发行版本的话，安装过程基本安装提示即可完成。如果从源代码进行安装的话，则需要切换到MySQLdb发行版本的顶级目录，并键入下列命令:
+```python
+$ gunzip MySQL-python-1.2.2.tar.gz
+$ tar -xvf MySQL-python-1.2.2.tar
+$ cd MySQL-python-1.2.2
+$ python setup.py build
+$ python setup.py install
+```
+注意：请确保您有root权限来安装上述模块。
+数据库连接
+连接数据库前，请先确认以下事项：
+您已经创建了数据库 TESTDB.
+在TESTDB数据库中您已经创建了表 EMPLOYEE
+EMPLOYEE表字段为 FIRST_NAME, LAST_NAME, AGE, SEX 和 INCOME。
+连接数据库TESTDB使用的用户名为 "testuser" ，密码为 "test123",你可以可以自己设定或者直接使用root用户名及其密码，Mysql数据库用户授权请使用Grant命令。
+在你的机子上已经安装了 Python MySQLdb 模块。
+如果您对sql语句不熟悉，可以访问我们的 SQL基础教程
+>实例：
+以下实例链接Mysql的TESTDB数据库：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb
+
+# 打开数据库连接
+db = MySQLdb.connect("localhost", "testuser", "test123", "TESTDB", charset='utf8' )
+
+# 使用cursor()方法获取操作游标 
+cursor = db.cursor()
+
+# 使用execute方法执行SQL语句
+cursor.execute("SELECT VERSION()")
+
+# 使用 fetchone() 方法获取一条数据
+data = cursor.fetchone()
+
+print "Database version : %s " % data
+
+# 关闭数据库连接
+db.close()
+```
+执行以上脚本输出结果如下：
+`Database version : 5.0.45`
+### 创建数据库表
+如果数据库连接存在我们可以使用execute()方法来为数据库创建表，如下所示创建表EMPLOYEE：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb
+
+# 打开数据库连接
+db = MySQLdb.connect("localhost", "testuser", "test123", "TESTDB", charset='utf8' )
+
+# 使用cursor()方法获取操作游标 
+cursor = db.cursor()
+
+# 如果数据表已经存在使用 execute() 方法删除表。
+cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
+
+# 创建数据表SQL语句
+sql = """CREATE TABLE EMPLOYEE (
+         FIRST_NAME  CHAR(20) NOT NULL,
+         LAST_NAME  CHAR(20),
+         AGE INT,  
+         SEX CHAR(1),
+         INCOME FLOAT )"""
+
+cursor.execute(sql)
+
+# 关闭数据库连接
+db.close()
+```
+数据库插入操作
+以下实例使用执行 SQL INSERT 语句向表 EMPLOYEE 插入记录：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb
+
+# 打开数据库连接
+db = MySQLdb.connect("localhost", "testuser", "test123", "TESTDB", charset='utf8' )
+
+# 使用cursor()方法获取操作游标 
+cursor = db.cursor()
+
+# SQL 插入语句
+sql = """INSERT INTO EMPLOYEE(FIRST_NAME,
+         LAST_NAME, AGE, SEX, INCOME)
+         VALUES ('Mac', 'Mohan', 20, 'M', 2000)"""
+try:
+   # 执行sql语句
+   cursor.execute(sql)
+   # 提交到数据库执行
+   db.commit()
+except:
+   # Rollback in case there is any error
+   db.rollback()
+
+# 关闭数据库连接
+db.close()
+```
+以上例子也可以写成如下形式：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb
+
+# 打开数据库连接
+db = MySQLdb.connect("localhost", "testuser", "test123", "TESTDB", charset='utf8' )
+
+# 使用cursor()方法获取操作游标 
+cursor = db.cursor()
+
+# SQL 插入语句
+sql = "INSERT INTO EMPLOYEE(FIRST_NAME, \
+       LAST_NAME, AGE, SEX, INCOME) \
+       VALUES (%s, %s, %s, %s, %s )" % \
+       ('Mac', 'Mohan', 20, 'M', 2000)
+try:
+   # 执行sql语句
+   cursor.execute(sql)
+   # 提交到数据库执行
+   db.commit()
+except:
+   # 发生错误时回滚
+   db.rollback()
+
+# 关闭数据库连接
+db.close()
+```
+
+实例：
+以下代码使用变量向SQL语句中传递参数:
+:::info
+user_id = "test123"
+password = "password"
+
+con.execute('insert into Login values(%s, %s)' % \
+             (user_id, password))
+:::
+### 数据库查询操作
+Python查询Mysql使用 fetchone() 方法获取单条数据, 使用fetchall() 方法获取多条数据。
+>fetchone(): 该方法获取下一个查询结果集。结果集是一个对象
+fetchall():接收全部的返回结果行.
+rowcount: 这是一个只读属性，并返回执行execute()方法后影响的行数。
+
+实例：
+查询EMPLOYEE表中salary（工资）字段大于1000的所有数据：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb
+
+# 打开数据库连接
+db = MySQLdb.connect("localhost", "testuser", "test123", "TESTDB", charset='utf8' )
+
+# 使用cursor()方法获取操作游标 
+cursor = db.cursor()
+
+# SQL 查询语句
+sql = "SELECT * FROM EMPLOYEE \
+       WHERE INCOME > %s" % (1000)
+try:
+   # 执行SQL语句
+   cursor.execute(sql)
+   # 获取所有记录列表
+   results = cursor.fetchall()
+   for row in results:
+      fname = row[0]
+      lname = row[1]
+      age = row[2]
+      sex = row[3]
+      income = row[4]
+      # 打印结果
+      print "fname=%s,lname=%s,age=%s,sex=%s,income=%s" % \
+             (fname, lname, age, sex, income )
+except:
+   print "Error: unable to fecth data"
+
+# 关闭数据库连接
+db.close()
+```
+以上脚本执行结果如下：
+`fname=Mac, lname=Mohan, age=20, sex=M, income=2000`
+### 数据库更新操作
+更新操作用于更新数据表的的数据，以下实例将 EMPLOYEE 表中的 SEX 字段为 'M' 的 AGE 字段递增 1：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb
+
+# 打开数据库连接
+db = MySQLdb.connect("localhost", "testuser", "test123", "TESTDB", charset='utf8' )
+
+# 使用cursor()方法获取操作游标 
+cursor = db.cursor()
+
+# SQL 更新语句
+sql = "UPDATE EMPLOYEE SET AGE = AGE + 1 WHERE SEX = '%c'" % ('M')
+try:
+   # 执行SQL语句
+   cursor.execute(sql)
+   # 提交到数据库执行
+   db.commit()
+except:
+   # 发生错误时回滚
+   db.rollback()
+
+# 关闭数据库连接
+db.close()
+```
+
+### 删除操作
+删除操作用于删除数据表中的数据，以下实例演示了删除数据表 EMPLOYEE 中 AGE 大于 20 的所有数据：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import MySQLdb
+
+# 打开数据库连接
+db = MySQLdb.connect("localhost", "testuser", "test123", "TESTDB", charset='utf8' )
+
+# 使用cursor()方法获取操作游标 
+cursor = db.cursor()
+
+# SQL 删除语句
+sql = "DELETE FROM EMPLOYEE WHERE AGE > %s" % (20)
+try:
+   # 执行SQL语句
+   cursor.execute(sql)
+   # 提交修改
+   db.commit()
+except:
+   # 发生错误时回滚
+   db.rollback()
+
+# 关闭连接
+db.close()
+```
+### 执行事务
+事务机制可以确保数据一致性。
+事务应该具有4个属性：原子性、一致性、隔离性、持久性。这四个属性通常称为ACID特性。
+- 原子性（atomicity）。一个事务是一个不可分割的工作单位，事务中包括的诸操作要么都做，要么都不做。
+- 一致性（consistency）。事务必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。
+- 隔离性（isolation）。一个事务的执行不能被其他事务干扰。即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。
+- 持久性（durability）。持续性也称永久性（permanence），指一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。
+### Python DB API 2.0 的事务提供了两个方法 commit 或 rollback。
+实例：
+```python
+# SQL删除记录语句
+sql = "DELETE FROM EMPLOYEE WHERE AGE > %s" % (20)
+try:
+   # 执行SQL语句
+   cursor.execute(sql)
+   # 向数据库提交
+   db.commit()
+except:
+   # 发生错误时回滚
+   db.rollback()
+```
+对于支持事务的数据库， 在Python数据库编程中，当游标建立之时，就自动开始了一个隐形的数据库事务。
+commit()方法游标的所有更新操作，rollback（）方法回滚当前游标的所有操作。每一个方法都开始了一个新的事务。
+### 错误处理
+DB API中定义了一些数据库操作的错误及异常，下表列出了这些错误和异常:
+|异常	|描述|
+|-|-|
+Warning	|当有严重警告时触发，例如插入数据是被截断等等。必须是 StandardError 的子类。|
+Error	|警告以外所有其他错误类。必须是 StandardError 的子类。|
+InterfaceError	|当有数据库接口模块本身的错误（而不是数据库的错误）发生时触发。 必须是Error的子类。|
+DatabaseError	|和数据库有关的错误发生时触发。 必须是Error的子类。|
+DataError	|当有数据处理时的错误发生时触发，例如：除零错误，数据超范围等等。 必须是DatabaseError的子类。|
+OperationalError	|指非用户控制的，而是操作数据库时发生的错误。例如：连接意外断开、 数据库名未找到、事务处理失败、内存分配错误等等操作数据库是发生的错误。 必须是DatabaseError的子类。|
+IntegrityError	|完整性相关的错误，例如外键检查失败等。必须是DatabaseError子类。|
+InternalError	|数据库的内部错误，例如游标（cursor）失效了、事务同步失败等等。 必须是DatabaseError子类。|
+ProgrammingError	|程序错误，例如数据表（table）没找到或已存在、SQL语句语法错误、 参数数量错误等等。必须是DatabaseError的子类。|
+NotSupportedError	|不支持错误，指使用了数据库不支持的函数或API等。例如在连接对象上 使用.rollback()函数，然而数据库并不支持事务或者事务已关闭。 必须是DatabaseError的子类。|
+
+>关于Mysql的连接，经过摸索，建议正文修改一下，使用mysql官方提供的连接器，我目前安装的mysql是8.0.12版本，数据库安装完成后，可以安装“mysql-connector-python-8.0.12-py2.7-windows-x86-64bit”，当然了，要根据自己的操作系统和python版本以及位数进行选择，我是win10的64位，python2.7的64位，故选择的上述插件，安装完成后，直接使用以下代码进行测试：
+>```python
+># -*- coding:utf-8 -*-
+>
+>import mysql.connector
+>
+># 打开数据库连接（请根据自己的用户名、密码及数据库名称进行修改）
+>cnn = mysql.connector.connect(user='root',passwd='root',database='testdb')
+>
+># 使用cursor()方法获取操作游标 
+>cursor = cnn.cursor()
+>
+># 使用execute方法执行SQL语句
+>cursor.execute("SELECT VERSION()")
+>
+># 使用 fetchone() 方法获取一条数据
+>
+>data = cursor.fetchone()
+>print "Database version : %s " % data
+>
+># 执行sql语句
+>cnn.close() 
+>```
+>显示的结果应该如下：
+>`Database version : 8.0.12 `
+>显示的结果应该如下：
+>`Database version : 8.0.12`
+### Python 网络编程
+Python 提供了两个级别访问的网络服务：
+- 低级别的网络服务支持基本的 Socket，它提供了标准的 BSD Sockets API，可以访问底层操作系统Socket接口的全部方法。
+- 高级别的网络服务模块 SocketServer， 它提供了服务器中心类，可以简化网络服务器的开发。
+#### 什么是 Socket?
+Socket又称"套接字"，应用程序通常通过"套接字"向网络发出请求或者应答网络请求，使主机间或者一台计算机上的进程间可以通讯。
+### socket()函数
+Python 中，我们用 socket（）函数来创建套接字，语法格式如下：
+`socket.socket([family[, type[, proto]]])`
+>参数
+family: 套接字家族可以使AF_UNIX或者AF_INET
+type: 套接字类型可以根据是面向连接的还是非连接分为SOCK_STREAM或SOCK_DGRAM
+protocol: 一般不填默认为0.
+
+### Socket 对象(内建)方法
+服务器端套接字
+|函数	|描述|
+|-|-|
+s.bind()|	绑定地址（host,port）到套接字， 在AF_INET下,以元组（host,port）的形式表示地址。|
+s.listen()	|开始TCP监听。backlog指定在拒绝连接之前，操作系统可以挂起的最大连接数量。该值至少为1，大部分应用程序设为5就可以了。|
+s.accept()	|被动接受TCP客户端连接,(阻塞式)等待连接的到来
+客户端套接字|
+s.connect()	|主动初始化TCP服务器连接，。一般address的格式为元组（hostname,port），如果连接出错，返回socket.error错误。|
+s.connect_ex()	|connect()函数的扩展版本,出错时返回出错码,而不是抛出异常|
+
+公共用途的套接字函数
+|函数	|描述|
+|-|-|
+s.recv()	|接收TCP数据，数据以字符串形式返回，bufsize指定要接收的最大数据量。flag提供有关消息的其他信息，通常可以忽略。|
+s.send()	|发送TCP数据，将string中的数据发送到连接的套接字。返回值是要发送的字节数量，该数量可能小于string的字节大小。|
+s.sendall()	|完整发送TCP数据，完整发送TCP数据。将string中的数据发送到连接的套接字，但在返回之前会尝试发送所有数据。成功返回None，失败则抛出异常。|
+s.recvfrom()	|接收UDP数据，与recv()类似，但返回值是（data,address）。其中data是包含接收数据的字符串，address是发送数据的套接字地址。|
+s.sendto()|	发送UDP数据，将数据发送到套接字，address是形式为（ipaddr，port）的元组，指定远程地址。返回值是发送的字节数。|
+s.close()	|关闭套接字|
+s.getpeername()|	返回连接套接字的远程地址。返回值通常是元组（ipaddr,port）。|
+s.getsockname()|	返回套接字自己的地址。通常是一个元组(ipaddr,port)|
+s.setsockopt(level,optname,value)	|设置给定套接字选项的值。|
+s.getsockopt(level,optname[.buflen])	|返回套接字选项的值。|
+s.settimeout(timeout)|	设置套接字操作的超时期，timeout是一个浮点数，单位是秒。值为None表示没有超时期。一般，超时期应该在刚创建套接字时设置，因为它们可能用于连接的操作（如connect()）|
+s.gettimeout()	|返回当前超时期的值，单位是秒，如果没有设置超时期，则返回None。|
+s.fileno()	|返回套接字的文件描述符。|
+s.setblocking(flag)	|如果flag为0，则将套接字设为非阻塞模式，否则将套接字设为阻塞模式（默认值）。非阻塞模式下，如果调用recv()没有发现任何数据，或send()调用无法立即发送数据，那么将引起socket.error异常。|
+s.makefile()	|创建一个与该套接字相关连的文件|
+### 簡單實例
+>### 服务端
+>我们使用 socket 模块的 socket 函数来创建一个 socket 对象。socket 对象可以通过调用其他函数来设置一个 socket 服务。
+现在我们可以通过调用 bind(hostname, port) 函数来指定服务的 port(端口)。
+接着，我们调用 socket 对象的 accept 方法。该方法等待客户端的连接，并返回 connection 对象，表示已连接到客户端。
+
+完整代码如下：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+# 文件名：server.py
+ 
+import socket               # 导入 socket 模块
+ 
+s = socket.socket()         # 创建 socket 对象
+host = socket.gethostname() # 获取本地主机名
+port = 12345                # 设置端口
+s.bind((host, port))        # 绑定端口
+ 
+s.listen(5)                 # 等待客户端连接
+while True:
+    c,addr = s.accept()     # 建立客户端连接
+    print '连接地址：', addr
+    c.send('欢迎访问菜鸟教程！')
+    c.close()                # 关闭连接
+```
+>### 客户端
+>接下来我们写一个简单的客户端实例连接到以上创建的服务。端口号为 12345。
+socket.connect(hosname, port ) 方法打开一个 TCP 连接到主机为 hostname 端口为 port 的服务商。连接后我们就可以从服务端获取数据，记住，操作完成后需要关闭连接。
+
+完整代码如下：
+
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+# 文件名：client.py
+ 
+import socket               # 导入 socket 模块
+ 
+s = socket.socket()         # 创建 socket 对象
+host = socket.gethostname() # 获取本地主机名
+port = 12345                # 设置端口号
+ 
+s.connect((host, port))
+print s.recv(1024)
+s.close()
+```
+现在我们打开两个终端，第一个终端执行 server.py 文件：
+`$ python server.py`
+第二个终端执行 client.py 文件：
+```
+$ python client.py 
+欢迎访问菜鸟教程！
+```
+这时我们再打开第一个终端，就会看到有以下信息输出：
+`连接地址： ('192.168.0.118', 62461)`
+
+>#### 再多一點實例：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+import socket
+# 建立一个服务端
+server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+server.bind(('localhost',9090)) #绑定要监听的端口
+server.listen(5) #开始监听 表示可以使用五个链接排队
+while True:# conn就是客户端链接过来而在服务端为期生成的一个链接实例
+    conn,addr = server.accept() #等待链接,多个链接的时候就会出现问题,其实返回了两个值
+    print(conn,addr)
+    while True:
+        data = conn.recv(1024)  #接收数据
+        print('recive:',data.decode()) #打印接收到的数据
+        conn.send(data.upper()) #然后再发送数据
+    conn.close()
+```
+客户端：
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+import socket# 客户端 发送一个数据，再接收一个数据
+client = socket.socket(socket.AF_INET,socket.SOCK_STREAM) #声明socket类型，同时生成链接对象
+client.connect(('localhost',9090)) #建立一个链接，连接到本地的6969端口
+while True:
+    # addr = client.accept()
+    # print '连接地址：', addr
+    msg = '欢迎访问菜鸟教程！'  #strip默认取出字符串的头尾空格
+    client.send(msg.encode('utf-8'))  #发送一条信息 python3 只接收btye流
+    data = client.recv(1024) #接收一个信息，并指定接收的大小 为1024字节
+    print('recv:',data.decode()) #输出我接收的信息
+client.close() #关闭这个链接
+```
+
+
+### Python Internet 模块
+以下列出了 Python 网络编程的一些重要模块：
+|协议	|功能用处	|端口号	|Python 模块|
+|-|-|-|-|
+HTTP	|网页访问	|80|	httplib, urllib, xmlrpclib|
+NNTP	|阅读和张贴新闻文章，俗称为"帖子"	|119|	nntplib|
+FTP	|文件传输|	20|	ftplib, urllib|
+SMTP	|发送邮件|	25	|smtplib|
+POP3	|接收邮件	|110|	poplib|
+IMAP4|	获取邮件|	143|	imaplib|
+Telnet|	命令行|	23	|telnetlib|
+Gopher	|信息查找|	70|	gopherlib, urllib|
+
+### Python SMTP发送邮件
+SMTP（Simple Mail Transfer Protocol）即简单邮件传输协议,它是一组用于由源地址到目的地址传送邮件的规则，由它来控制信件的中转方式。
+python的smtplib提供了一种很方便的途径发送电子邮件。它对smtp协议进行了简单的封装。
+Python创建 SMTP 对象语法如下：
+```python
+import smtplib
+
+smtpObj = smtplib.SMTP( [host [, port [, local_hostname]]] )
+```
+>参数说明：
+host: SMTP 服务器主机。 你可以指定主机的ip地址或者域名如: runoob.com，这个是可选参数。
+port: 如果你提供了 host 参数, 你需要指定 SMTP 服务使用的端口号，一般情况下 SMTP 端口号为25。
+local_hostname: 如果 SMTP 在你的本机上，你只需要指定服务器地址为 localhost 即可。
+
+Python SMTP 对象使用 sendmail 方法发送邮件，语法如下：
+`SMTP.sendmail(from_addr, to_addrs, msg[, mail_options, rcpt_options])``
+
+>参数说明：
+from_addr: 邮件发送者地址。
+to_addrs: 字符串列表，邮件发送地址。
+msg: 发送消息
+:::info
+这里要注意一下第三个参数，msg 是字符串，表示邮件。我们知道邮件一般由标题，发信人，收件人，邮件内容，附件等构成，发送邮件的时候，要注意 msg 的格式。这个格式就是 smtp 协议中定义的格式。
+:::
+实例
+以下执行实例需要你本机已安装了支持 SMTP 的服务，如：sendmail。
+以下是一个使用 Python 发送邮件简单的实例：
+实例
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+ 
+sender = 'from@runoob.com'
+receivers = ['429240967@qq.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+ 
+# 三个参数：第一个为文本内容，第二个 plain 设置文本格式，第三个 utf-8 设置编码
+message = MIMEText('Python 邮件发送测试...', 'plain', 'utf-8')
+message['From'] = Header("菜鸟教程", 'utf-8')   # 发送者
+message['To'] =  Header("测试", 'utf-8')        # 接收者
+ 
+subject = 'Python SMTP 邮件测试'
+message['Subject'] = Header(subject, 'utf-8')
+ 
+ 
+try:
+    smtpObj = smtplib.SMTP('localhost')
+    smtpObj.sendmail(sender, receivers, message.as_string())
+    print "邮件发送成功"
+except smtplib.SMTPException:
+    print "Error: 无法发送邮件"
+```
+我们使用三个引号来设置邮件信息，标准邮件需要三个头部信息： From, To, 和 Subject ，每个信息直接使用空行分割。
+我们通过实例化 smtplib 模块的 SMTP 对象 smtpObj 来连接到 SMTP 访问，并使用 sendmail 方法来发送信息。
+执行以上程序，如果你本机安装 sendmail（邮件传输代理程序），就会输出：
+$ python test.py 
+邮件发送成功
+查看我们的收件箱(一般在垃圾箱)，就可以查看到邮件信息：
+
+如果我们本机没有 sendmail 访问，也可以使用其他邮件服务商的 SMTP 访问（QQ、网易、Google等）。
+实例
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+ 
+# 第三方 SMTP 服务
+mail_host="smtp.XXX.com"  #设置服务器
+mail_user="XXXX"    #用户名
+mail_pass="XXXXXX"   #口令 
+ 
+ 
+sender = 'from@runoob.com'
+receivers = ['429240967@qq.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+ 
+message = MIMEText('Python 邮件发送测试...', 'plain', 'utf-8')
+message['From'] = Header("菜鸟教程", 'utf-8')
+message['To'] =  Header("测试", 'utf-8')
+ 
+subject = 'Python SMTP 邮件测试'
+message['Subject'] = Header(subject, 'utf-8')
+ 
+ 
+try:
+    smtpObj = smtplib.SMTP() 
+    smtpObj.connect(mail_host, 25)    # 25 为 SMTP 端口号
+    smtpObj.login(mail_user,mail_pass)  
+    smtpObj.sendmail(sender, receivers, message.as_string())
+    print "邮件发送成功"
+except smtplib.SMTPException:
+    print "Error: 无法发送邮件"
+```
+使用Python发送HTML格式的邮件
+Python发送HTML格式的邮件与发送纯文本消息的邮件不同之处就是将MIMEText中_subtype设置为html。具体代码如下：
+实例
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+ 
+sender = 'from@runoob.com'
+receivers = ['429240967@qq.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+ 
+mail_msg = """
+<p>Python 邮件发送测试...</p>
+<p><a href="http://www.runoob.com">这是一个链接</a></p>
+"""
+message = MIMEText(mail_msg, 'html', 'utf-8')
+message['From'] = Header("菜鸟教程", 'utf-8')
+message['To'] =  Header("测试", 'utf-8')
+ 
+subject = 'Python SMTP 邮件测试'
+message['Subject'] = Header(subject, 'utf-8')
+ 
+ 
+try:
+    smtpObj = smtplib.SMTP('localhost')
+    smtpObj.sendmail(sender, receivers, message.as_string())
+    print "邮件发送成功"
+except smtplib.SMTPException:
+    print "Error: 无法发送邮件"
+```
+执行以上程序，如果你本机安装sendmail，就会输出：
+`$ python test.py 
+邮件发送成功`
+查看我们的收件箱(一般在垃圾箱)，就可以查看到邮件信息。
+
+### Python 发送带附件的邮件
+发送带附件的邮件，首先要创建MIMEMultipart()实例，然后构造附件，如果有多个附件，可依次构造，最后利用smtplib.smtp发送。
+实例
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.header import Header
+ 
+sender = 'from@runoob.com'
+receivers = ['429240967@qq.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+ 
+#创建一个带附件的实例
+message = MIMEMultipart()
+message['From'] = Header("菜鸟教程", 'utf-8')
+message['To'] =  Header("测试", 'utf-8')
+subject = 'Python SMTP 邮件测试'
+message['Subject'] = Header(subject, 'utf-8')
+ 
+#邮件正文内容
+message.attach(MIMEText('这是菜鸟教程Python 邮件发送测试……', 'plain', 'utf-8'))
+ 
+# 构造附件1，传送当前目录下的 test.txt 文件
+att1 = MIMEText(open('test.txt', 'rb').read(), 'base64', 'utf-8')
+att1["Content-Type"] = 'application/octet-stream'
+# 这里的filename可以任意写，写什么名字，邮件中显示什么名字
+att1["Content-Disposition"] = 'attachment; filename="test.txt"'
+message.attach(att1)
+ 
+# 构造附件2，传送当前目录下的 runoob.txt 文件
+att2 = MIMEText(open('runoob.txt', 'rb').read(), 'base64', 'utf-8')
+att2["Content-Type"] = 'application/octet-stream'
+att2["Content-Disposition"] = 'attachment; filename="runoob.txt"'
+message.attach(att2)
+ 
+try:
+    smtpObj = smtplib.SMTP('localhost')
+    smtpObj.sendmail(sender, receivers, message.as_string())
+    print "邮件发送成功"
+except smtplib.SMTPException:
+    print "Error: 无法发送邮件"
+```
+輸出結果：
+```
+$ python test.py 
+
+邮件发送成功
+```
+查看我们的收件箱(一般在垃圾箱)，就可以查看到邮件信息。
+
+### 在 HTML 文本中添加图片
+邮件的 HTML 文本中一般邮件服务商添加外链是无效的，正确添加图片的实例如下所示：
+实例
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import smtplib
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.header import Header
+ 
+sender = 'from@runoob.com'
+receivers = ['429240967@qq.com']  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+ 
+msgRoot = MIMEMultipart('related')
+msgRoot['From'] = Header("菜鸟教程", 'utf-8')
+msgRoot['To'] =  Header("测试", 'utf-8')
+subject = 'Python SMTP 邮件测试'
+msgRoot['Subject'] = Header(subject, 'utf-8')
+ 
+msgAlternative = MIMEMultipart('alternative')
+msgRoot.attach(msgAlternative)
+ 
+ 
+mail_msg = """
+<p>Python 邮件发送测试...</p>
+<p><a href="http://www.runoob.com">菜鸟教程链接</a></p>
+<p>图片演示：</p>
+<p><img src="cid:image1"></p>
+"""
+msgAlternative.attach(MIMEText(mail_msg, 'html', 'utf-8'))
+ 
+# 指定图片为当前目录
+fp = open('test.png', 'rb')
+msgImage = MIMEImage(fp.read())
+fp.close()
+ 
+# 定义图片 ID，在 HTML 文本中引用
+msgImage.add_header('Content-ID', '<image1>')
+msgRoot.attach(msgImage)
+ 
+try:
+    smtpObj = smtplib.SMTP('localhost')
+    smtpObj.sendmail(sender, receivers, msgRoot.as_string())
+    print "邮件发送成功"
+except smtplib.SMTPException:
+    print "Error: 无法发送邮件"
+```
+```
+$ python test.py 
+邮件发送成功
+```
+查看我们的收件箱(如果在垃圾箱可能需要移动到收件箱才可正常显示)，就可以查看到邮件信息。
+
+### 使用第三方 SMTP 服务发送
+这里使用了 QQ 邮箱(你也可以使用 163，Gmail等)的 SMTP 服务，需要做以下配置：
+
+QQ 邮箱通过生成授权码来设置密码：
+
+QQ 邮箱 SMTP 服务器地址：smtp.qq.com，ssl 端口：465。
+以下实例你需要修改：发件人邮箱（你的QQ邮箱），密码，收件人邮箱（可发给自己）。 
+### QQ SMTP
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import smtplib
+from email.mime.text import MIMEText
+from email.utils import formataddr
+ 
+my_sender='429240967@qq.com'    # 发件人邮箱账号
+my_pass = 'xxxxxxxxxx'              # 发件人邮箱密码
+my_user='429240967@qq.com'      # 收件人邮箱账号，我这边发送给自己
+def mail():
+    ret=True
+    try:
+        msg=MIMEText('填写邮件内容','plain','utf-8')
+        msg['From']=formataddr(["FromRunoob",my_sender])  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
+        msg['To']=formataddr(["FK",my_user])              # 括号里的对应收件人邮箱昵称、收件人邮箱账号
+        msg['Subject']="菜鸟教程发送邮件测试"                # 邮件的主题，也可以说是标题
+ 
+        server=smtplib.SMTP_SSL("smtp.qq.com", 465)  # 发件人邮箱中的SMTP服务器，端口是25
+        server.login(my_sender, my_pass)  # 括号中对应的是发件人邮箱账号、邮箱密码
+        server.sendmail(my_sender,[my_user,],msg.as_string())  # 括号中对应的是发件人邮箱账号、收件人邮箱账号、发送邮件
+        server.quit()  # 关闭连接
+    except Exception:  # 如果 try 中的语句没有执行，则会执行下面的 ret=False
+        ret=False
+    return ret
+ 
+ret=mail()
+if ret:
+    print("邮件发送成功")
+else:
+    print("邮件发送失败")
+```
+```
+$ python test.py 
+邮件发送成功
+```
+
+## Python 多線程
+>
+多線程類似於同時執行多個不同程序，多線程運行有如下優點：
+- 使用線程可以把佔據長時間的程序中的任務放到後台去處理。
+- 用戶界面可以更加吸引人，這樣比如用戶點擊了一個按鈕去觸發某些事件的處理，可以彈出一個進度條來顯示處理的進度
+- 程序的運行速度可能加快
+- 在一些等待的任務實現上如用戶輸入、文件讀寫和網絡收發數據等，線程就比較有用了。在這種情況下我們可以釋放一些珍貴的資源如內存佔用等等。
+
+線程在執行過程中與進程還是有區別的。每個獨立的進程有一個程序運行的入口、順序執行序列和程序的出口。但是線程不能夠獨立執行，必須依存在應用程序中，由應用程序提供多個線程執行控制。
+每個線程都有他自己的一組CPU寄存器，稱為線程的上下文，該上下文反映了線程上次運行該線程的CPU寄存器的狀態。
+指令指針和堆棧指針寄存器是線程上下文中兩個最重要的寄存器，線程總是在進程得到上下文中運行的，這些地址都用於標誌擁有線程的進程地址空間中的內存。
+線程可以被搶占（中斷）。
+在其他線程正在運行時，線程可以暫時擱置（也稱為睡眠） -- 這就是線程的退讓。
+
+### 开始学习Python线程
+Python中使用线程有两种方式：函数或者用类来包装线程对象。
+函数式：调用thread模块中的start_new_thread()函数来产生新线程。语法如下:
+`thread.start_new_thread ( function, args[, kwargs] )`
+
+>参数说明:
+function - 线程函数。
+args - 传递给线程函数的参数,他必须是个tuple类型。
+kwargs - 可选参数。
+实例(Python 2.0+)
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import thread
+import time
+ 
+# 为线程定义一个函数
+def print_time( threadName, delay):
+   count = 0
+   while count < 5:
+      time.sleep(delay)
+      count += 1
+      print "%s: %s" % ( threadName, time.ctime(time.time()) )
+ 
+# 创建两个线程
+try:
+   thread.start_new_thread( print_time, ("Thread-1", 2, ) )
+   thread.start_new_thread( print_time, ("Thread-2", 4, ) )
+except:
+   print "Error: unable to start thread"
+ 
+while 1:
+   pass
+```
+执行以上程序输出结果如下：
+```
+Thread-1: Thu Jan 22 15:42:17 2009
+Thread-1: Thu Jan 22 15:42:19 2009
+Thread-2: Thu Jan 22 15:42:19 2009
+Thread-1: Thu Jan 22 15:42:21 2009
+Thread-2: Thu Jan 22 15:42:23 2009
+Thread-1: Thu Jan 22 15:42:23 2009
+Thread-1: Thu Jan 22 15:42:25 2009
+Thread-2: Thu Jan 22 15:42:27 2009
+Thread-2: Thu Jan 22 15:42:31 2009
+Thread-2: Thu Jan 22 15:42:35 2009
+```
+线程的结束一般依靠线程函数的自然结束；也可以在线程函数中调用thread.exit()，他抛出SystemExit exception，达到退出线程的目的。
+### 线程模块
+Python通过两个标准库thread和threading提供对线程的支持。thread提供了低级别的、原始的线程以及一个简单的锁。
+threading 模块提供的其他方法：
+- threading.currentThread(): 返回当前的线程变量。
+- threading.enumerate(): 返回一个包含正在运行的线程的list。正在运行指线程启动后、结束前，不包括启动前和终止后的线程。
+- threading.activeCount(): 返回正在运行的线程数量，与len(threading.enumerate())有相同的结果。
+
+除了使用方法外，线程模块同样提供了Thread类来处理线程，Thread类提供了以下方法:
+>run(): 用以表示线程活动的方法。
+start():启动线程活动。
+join([time]): 等待至线程中止。这阻塞调用线程直至线程的join() 方法被调用中止-正常退出或者抛出未处理的异常-或者是可选的超时发生。
+isAlive(): 返回线程是否活动的。
+getName(): 返回线程名。
+setName(): 设置线程名。
+
+### 使用Threading模块创建线程
+使用Threading模块创建线程，直接从threading.Thread继承，然后重写__init__方法和run方法：
+实例(Python 2.0+)
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import threading
+import time
+ 
+exitFlag = 0
+ 
+class myThread (threading.Thread):   #继承父类threading.Thread
+    def __init__(self, threadID, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.counter = counter
+    def run(self):                   #把要执行的代码写到run函数里面 线程在创建后会直接运行run函数 
+        print "Starting " + self.name
+        print_time(self.name, self.counter, 5)
+        print "Exiting " + self.name
+ 
+def print_time(threadName, delay, counter):
+    while counter:
+        if exitFlag:
+            (threading.Thread).exit()
+        time.sleep(delay)
+        print "%s: %s" % (threadName, time.ctime(time.time()))
+        counter -= 1
+ 
+# 创建新线程
+thread1 = myThread(1, "Thread-1", 1)
+thread2 = myThread(2, "Thread-2", 2)
+ 
+# 开启线程
+thread1.start()
+thread2.start()
+ 
+print "Exiting Main Thread"
+```
+
+以上程序执行结果如下；
+```
+Starting Thread-1
+Starting Thread-2
+Exiting Main Thread
+Thread-1: Thu Mar 21 09:10:03 2013
+Thread-1: Thu Mar 21 09:10:04 2013
+Thread-2: Thu Mar 21 09:10:04 2013
+Thread-1: Thu Mar 21 09:10:05 2013
+Thread-1: Thu Mar 21 09:10:06 2013
+Thread-2: Thu Mar 21 09:10:06 2013
+Thread-1: Thu Mar 21 09:10:07 2013
+Exiting Thread-1
+Thread-2: Thu Mar 21 09:10:08 2013
+Thread-2: Thu Mar 21 09:10:10 2013
+Thread-2: Thu Mar 21 09:10:12 2013
+Exiting Thread-2
+```
+### 线程同步
+如果多个线程共同对某个数据修改，则可能出现不可预料的结果，为了保证数据的正确性，需要对多个线程进行同步。
+使用Thread对象的Lock和Rlock可以实现简单的线程同步，这两个对象都有acquire方法和release方法，对于那些需要每次只允许一个线程操作的数据，可以将其操作放到acquire和release方法之间。如下：
+多线程的优势在于可以同时运行多个任务（至少感觉起来是这样）。但是当线程需要共享数据时，可能存在数据不同步的问题。
+考虑这样一种情况：一个列表里所有元素都是0，线程"set"从后向前把所有元素改成1，而线程"print"负责从前往后读取列表并打印。
+那么，可能线程"set"开始改的时候，线程"print"便来打印列表了，输出就成了一半0一半1，这就是数据的不同步。为了避免这种情况，引入了锁的概念。
+锁有两种状态——锁定和未锁定。每当一个线程比如"set"要访问共享数据时，必须先获得锁定；如果已经有别的线程比如"print"获得锁定了，那么就让线程"set"暂停，也就是同步阻塞；等到线程"print"访问完毕，释放锁以后，再让线程"set"继续。
+经过这样的处理，打印列表时要么全部输出0，要么全部输出1，不会再出现一半0一半1的尴尬场面。
+实例(Python 2.0+)
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import threading
+import time
+ 
+class myThread (threading.Thread):
+    def __init__(self, threadID, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.counter = counter
+    def run(self):
+        print "Starting " + self.name
+       # 获得锁，成功获得锁定后返回True
+       # 可选的timeout参数不填时将一直阻塞直到获得锁定
+       # 否则超时后将返回False
+        threadLock.acquire()
+        print_time(self.name, self.counter, 3)
+        # 释放锁
+        threadLock.release()
+ 
+def print_time(threadName, delay, counter):
+    while counter:
+        time.sleep(delay)
+        print "%s: %s" % (threadName, time.ctime(time.time()))
+        counter -= 1
+ 
+threadLock = threading.Lock()
+threads = []
+ 
+# 创建新线程
+thread1 = myThread(1, "Thread-1", 1)
+thread2 = myThread(2, "Thread-2", 2)
+ 
+# 开启新线程
+thread1.start()
+thread2.start()
+ 
+# 添加线程到线程列表
+threads.append(thread1)
+threads.append(thread2)
+ 
+# 等待所有线程完成
+for t in threads:
+    t.join()
+print "Exiting Main Thread"
+```
+
+### 线程优先级队列（ Queue）
+Python的Queue模块中提供了同步的、线程安全的队列类，包括FIFO（先入先出)队列Queue，LIFO（后入先出）队列LifoQueue，和优先级队列PriorityQueue。这些队列都实现了锁原语，能够在多线程中直接使用。可以使用队列来实现线程间的同步。
+>### Queue模块中的常用方法:
+>Queue.qsize() 返回队列的大小
+Queue.empty() 如果队列为空，返回True,反之False
+Queue.full() 如果队列满了，返回True,反之False
+Queue.full 与 maxsize 大小对应
+Queue.get([block[, timeout]])获取队列，timeout等待时间
+Queue.get_nowait() 相当Queue.get(False)
+Queue.put(item) 写入队列，timeout等待时间
+Queue.put_nowait(item) 相当Queue.put(item, False)
+Queue.task_done() 在完成一项工作之后，Queue.task_done()函数向任务已经完成的队列发送一个信号
+Queue.join() 实际上意味着等到队列为空，再执行别的操作
+
+实例(Python 2.0+)
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import Queue
+import threading
+import time
+ 
+exitFlag = 0
+ 
+class myThread (threading.Thread):
+    def __init__(self, threadID, name, q):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.q = q
+    def run(self):
+        print "Starting " + self.name
+        process_data(self.name, self.q)
+        print "Exiting " + self.name
+ 
+def process_data(threadName, q):
+    while not exitFlag:
+        queueLock.acquire()
+        if not workQueue.empty():
+            data = q.get()
+            queueLock.release()
+            print "%s processing %s" % (threadName, data)
+        else:
+            queueLock.release()
+        time.sleep(1)
+ 
+threadList = ["Thread-1", "Thread-2", "Thread-3"]
+nameList = ["One", "Two", "Three", "Four", "Five"]
+queueLock = threading.Lock()
+workQueue = Queue.Queue(10)
+threads = []
+threadID = 1
+ 
+# 创建新线程
+for tName in threadList:
+    thread = myThread(threadID, tName, workQueue)
+    thread.start()
+    threads.append(thread)
+    threadID += 1
+ 
+# 填充队列
+queueLock.acquire()
+for word in nameList:
+    workQueue.put(word)
+queueLock.release()
+ 
+# 等待队列清空
+while not workQueue.empty():
+    pass
+ 
+# 通知线程是时候退出
+exitFlag = 1
+ 
+# 等待所有线程完成
+for t in threads:
+    t.join()
+print "Exiting Main Thread"
+```
+以上程序执行结果：
+```
+Starting Thread-1
+Starting Thread-2
+Starting Thread-3
+Thread-1 processing One
+Thread-2 processing Two
+Thread-3 processing Three
+Thread-1 processing Four
+Thread-2 processing Five
+Exiting Thread-3
+Exiting Thread-1
+Exiting Thread-2
+Exiting Main Thread
+```
+### Python 线程同步
+以下代码可以直观展示加锁和不加锁时，对数据修改情况。
+### 加锁时
+```python=
+# -*-* encoding:UTF-8 -*-
+# author : shoushixiong
+# date   : 2018/11/22
+import threading
+import time
+list = [0,0,0,0,0,0,0,0,0,0,0,0]
+class myThread(threading.Thread):
+    def __init__(self,threadId,name,counter):
+        threading.Thread.__init__(self)
+        self.threadId = threadId
+        self.name = name
+        self.counter = counter
+    def run(self):
+        print "开始线程:",self.name
+        # 获得锁，成功获得锁定后返回 True
+        # 可选的timeout参数不填时将一直阻塞直到获得锁定
+        # 否则超时后将返回 False
+        threadLock.acquire()
+        print_time(self.name,self.counter,list.__len__())
+        # 释放锁
+        threadLock.release()
+    def __del__(self):
+        print self.name,"线程结束！"
+def print_time(threadName,delay,counter):
+    while counter:
+        time.sleep(delay)
+        list[counter-1] += 1
+        print "[%s] %s 修改第 %d 个值，修改后值为:%d" % (time.ctime(time.time()),threadName,counter,list[counter-1])
+        counter -= 1
+threadLock = threading.Lock()
+threads = []
+# 创建新线程
+thread1 = myThread(1,"Thread-1",1)
+thread2 = myThread(2,"Thread-2",2)
+# 开启新线程
+thread1.start()
+thread2.start()
+# 添加线程到线程列表
+threads.append(thread1)
+threads.append(thread2)
+# 等待所有线程完成
+for t in threads:
+    t.join()
+print "主进程结束！"
+```
+输出结果为：
+```
+开始线程: Thread-1
+开始线程: Thread-2
+[Thu Nov 22 16:04:13 2018] Thread-1 修改第 12 个值，修改后值为:1
+[Thu Nov 22 16:04:14 2018] Thread-1 修改第 11 个值，修改后值为:1
+[Thu Nov 22 16:04:15 2018] Thread-1 修改第 10 个值，修改后值为:1
+[Thu Nov 22 16:04:16 2018] Thread-1 修改第 9 个值，修改后值为:1
+[Thu Nov 22 16:04:17 2018] Thread-1 修改第 8 个值，修改后值为:1
+[Thu Nov 22 16:04:18 2018] Thread-1 修改第 7 个值，修改后值为:1
+[Thu Nov 22 16:04:19 2018] Thread-1 修改第 6 个值，修改后值为:1
+[Thu Nov 22 16:04:20 2018] Thread-1 修改第 5 个值，修改后值为:1
+[Thu Nov 22 16:04:21 2018] Thread-1 修改第 4 个值，修改后值为:1
+[Thu Nov 22 16:04:22 2018] Thread-1 修改第 3 个值，修改后值为:1
+[Thu Nov 22 16:04:23 2018] Thread-1 修改第 2 个值，修改后值为:1
+[Thu Nov 22 16:04:24 2018] Thread-1 修改第 1 个值，修改后值为:1
+[Thu Nov 22 16:04:26 2018] Thread-2 修改第 12 个值，修改后值为:2
+[Thu Nov 22 16:04:28 2018] Thread-2 修改第 11 个值，修改后值为:2
+[Thu Nov 22 16:04:30 2018] Thread-2 修改第 10 个值，修改后值为:2
+[Thu Nov 22 16:04:32 2018] Thread-2 修改第 9 个值，修改后值为:2
+[Thu Nov 22 16:04:34 2018] Thread-2 修改第 8 个值，修改后值为:2
+[Thu Nov 22 16:04:36 2018] Thread-2 修改第 7 个值，修改后值为:2
+[Thu Nov 22 16:04:38 2018] Thread-2 修改第 6 个值，修改后值为:2
+[Thu Nov 22 16:04:40 2018] Thread-2 修改第 5 个值，修改后值为:2
+[Thu Nov 22 16:04:42 2018] Thread-2 修改第 4 个值，修改后值为:2
+[Thu Nov 22 16:04:44 2018] Thread-2 修改第 3 个值，修改后值为:2
+[Thu Nov 22 16:04:46 2018] Thread-2 修改第 2 个值，修改后值为:2
+[Thu Nov 22 16:04:48 2018] Thread-2 修改第 1 个值，修改后值为:2
+主进程结束！
+Thread-1 线程结束！
+Thread-2 线程结束！
+```
+### 不加锁时
+同样是上面实例的代码，注释以下两行代码：
+```python=
+threadLock.acquire()
+threadLock.release()
+```
+输出结果为：
+```
+开始线程: Thread-1
+开始线程: Thread-2
+[Thu Nov 22 16:09:20 2018] Thread-1 修改第 12 个值，修改后值为:1
+[Thu Nov 22 16:09:21 2018] Thread-2 修改第 12 个值，修改后值为:2
+[Thu Nov 22 16:09:21 2018] Thread-1 修改第 11 个值，修改后值为:1
+[Thu Nov 22 16:09:22 2018] Thread-1 修改第 10 个值，修改后值为:1
+[Thu Nov 22 16:09:23 2018] Thread-1 修改第 9 个值，修改后值为:1
+[Thu Nov 22 16:09:23 2018] Thread-2 修改第 11 个值，修改后值为:2
+[Thu Nov 22 16:09:24 2018] Thread-1 修改第 8 个值，修改后值为:1
+[Thu Nov 22 16:09:25 2018] Thread-2 修改第 10 个值，修改后值为:2
+[Thu Nov 22 16:09:25 2018] Thread-1 修改第 7 个值，修改后值为:1
+[Thu Nov 22 16:09:26 2018] Thread-1 修改第 6 个值，修改后值为:1
+[Thu Nov 22 16:09:27 2018] Thread-2 修改第 9 个值，修改后值为:2
+[Thu Nov 22 16:09:27 2018] Thread-1 修改第 5 个值，修改后值为:1
+[Thu Nov 22 16:09:28 2018] Thread-1 修改第 4 个值，修改后值为:1
+[Thu Nov 22 16:09:29 2018] Thread-2 修改第 8 个值，修改后值为:2
+[Thu Nov 22 16:09:29 2018] Thread-1 修改第 3 个值，修改后值为:1
+[Thu Nov 22 16:09:30 2018] Thread-1 修改第 2 个值，修改后值为:1
+[Thu Nov 22 16:09:31 2018] Thread-2 修改第 7 个值，修改后值为:2
+[Thu Nov 22 16:09:31 2018] Thread-1 修改第 1 个值，修改后值为:1
+[Thu Nov 22 16:09:33 2018] Thread-2 修改第 6 个值，修改后值为:2
+[Thu Nov 22 16:09:35 2018] Thread-2 修改第 5 个值，修改后值为:2
+[Thu Nov 22 16:09:37 2018] Thread-2 修改第 4 个值，修改后值为:2
+[Thu Nov 22 16:09:39 2018] Thread-2 修改第 3 个值，修改后值为:2
+[Thu Nov 22 16:09:41 2018] Thread-2 修改第 2 个值，修改后值为:2
+[Thu Nov 22 16:09:43 2018] Thread-2 修改第 1 个值，修改后值为:2
+主进程结束！
+Thread-1 线程结束！
+Thread-2 线程结束！
+```
+
+## Python XML 解析
+### 什么是 XML？
+
+- XML 指可扩展标记语言（eXtensible Markup Language）。 
+- XML 被设计用来传输和存储数据。
+- XML 是一套定义语义标记的规则，这些标记将文档分成许多部件并对这些部件加以标识。
+它也是元标记语言，即定义了用于定义其他与特定领域有关的、语义的、结构化的标记语言的句法语言。
+### Python 对 XML 的解析
+常见的 XML 编程接口有 DOM 和 SAX，这两种接口处理 XML 文件的方式不同，当然使用场合也不同。
+
+### Python 有三种方法解析 XML，SAX，DOM，以及 ElementTree:
+1.SAX (simple API for XML )
+Python 标准库包含 SAX 解析器，SAX 用事件驱动模型，通过在解析XML的过程中触发一个个的事件并调用用户定义的回调函数来处理XML文件。
+2.DOM(Document Object Model)
+将 XML 数据在内存中解析成一个树，通过对树的操作来操作XML。
+3.ElementTree(元素树)
+ElementTree就像一个轻量级的DOM，具有方便友好的API。代码可用性好，速度快，消耗内存少。
+注：因DOM需要将XML数据映射到内存中的树，一是比较慢，二是比较耗内存，而SAX流式读取XML文件，比较快，占用内存少，但需要用户实现回调函数（handler）。
+
+本章节使用到的 XML 实例文件 movies.xml 内容如下：
+```python=
+movies.xml
+<collection shelf="New Arrivals">
+<movie title="Enemy Behind">
+   <type>War, Thriller</type>
+   <format>DVD</format>
+   <year>2003</year>
+   <rating>PG</rating>
+   <stars>10</stars>
+   <description>Talk about a US-Japan war</description>
+</movie>
+<movie title="Transformers">
+   <type>Anime, Science Fiction</type>
+   <format>DVD</format>
+   <year>1989</year>
+   <rating>R</rating>
+   <stars>8</stars>
+   <description>A schientific fiction</description>
+</movie>
+   <movie title="Trigun">
+   <type>Anime, Action</type>
+   <format>DVD</format>
+   <episodes>4</episodes>
+   <rating>PG</rating>
+   <stars>10</stars>
+   <description>Vash the Stampede!</description>
+</movie>
+<movie title="Ishtar">
+   <type>Comedy</type>
+   <format>VHS</format>
+   <rating>PG</rating>
+   <stars>2</stars>
+   <description>Viewable boredom</description>
+</movie>
+</collection>
+```
+### python使用SAX解析xml
+SAX是一种基于事件驱动的 API。
+利用SAX解析XML文档牵涉到两个部分: 解析器和事件处理器。
+解析器负责读取XML文档，并向事件处理器发送事件，如元素开始跟元素结束事件。
+而事件处理器则负责对事件作出响应，对传递的XML数据进行处理。
+1、对大型文件进行处理；
+2、只需要文件的部分内容，或者只需从文件中得到特定信息。
+3、想建立自己的对象模型的时候。
+
+在python中使用sax方式处理xml要先引入xml.sax中的parse函数，还有xml.sax.handler中的ContentHandler。
+ContentHandler类方法介绍
+### characters(content)方法
+调用时机：
+从行开始，遇到标签之前，存在字符，content 的值为这些字符串。
+从一个标签，遇到下一个标签之前， 存在字符，content 的值为这些字符串。
+从一个标签，遇到行结束符之前，存在字符，content 的值为这些字符串。
+标签可以是开始标签，也可以是结束标签。
+### startDocument() 方法
+文档启动的时候调用。
+### endDocument() 方法
+解析器到达文档结尾时调用。
+### startElement(name, attrs)方法
+遇到XML开始标签时调用，name是标签的名字，attrs是标签的属性值字典。
+### endElement(name) 方法
+遇到XML结束标签时调用。
+
+### make_parser方法
+以下方法创建一个新的解析器对象并返回。
+`xml.sax.make_parser( [parser_list] )`
+
+>参数说明:
+parser_list - 可选参数，解析器列表
+### parser方法
+以下方法创建一个 SAX 解析器并解析xml文档：
+xml.sax.parse( xmlfile, contenthandler[, errorhandler])
+
+>参数说明:
+xmlfile - xml文件名
+contenthandler - 必须是一个ContentHandler的对象
+errorhandler - 如果指定该参数，errorhandler必须是一个SAX ErrorHandler对象
+
+### parseString方法
+parseString方法创建一个XML解析器并解析xml字符串：
+`xml.sax.parseString(xmlstring, contenthandler[, errorhandler])`
+>参数说明:
+xmlstring - xml字符串
+contenthandler - 必须是一个ContentHandler的对象
+errorhandler - 如果指定该参数，errorhandler必须是一个SAX ErrorHandler对象
+Python 解析XML实例
+
+实例
+```python=
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import xml.sax
+ 
+class MovieHandler( xml.sax.ContentHandler ):
+   def __init__(self):
+      self.CurrentData = ""
+      self.type = ""
+      self.format = ""
+      self.year = ""
+      self.rating = ""
+      self.stars = ""
+      self.description = ""
+ 
+   # 元素开始事件处理
+   def startElement(self, tag, attributes):
+      self.CurrentData = tag
+      if tag == "movie":
+         print "*****Movie*****"
+         title = attributes["title"]
+         print "Title:", title
+ 
+   # 元素结束事件处理
+   def endElement(self, tag):
+      if self.CurrentData == "type":
+         print "Type:", self.type
+      elif self.CurrentData == "format":
+         print "Format:", self.format
+      elif self.CurrentData == "year":
+         print "Year:", self.year
+      elif self.CurrentData == "rating":
+         print "Rating:", self.rating
+      elif self.CurrentData == "stars":
+         print "Stars:", self.stars
+      elif self.CurrentData == "description":
+         print "Description:", self.description
+      self.CurrentData = ""
+ 
+   # 内容事件处理
+   def characters(self, content):
+      if self.CurrentData == "type":
+         self.type = content
+      elif self.CurrentData == "format":
+         self.format = content
+      elif self.CurrentData == "year":
+         self.year = content
+      elif self.CurrentData == "rating":
+         self.rating = content
+      elif self.CurrentData == "stars":
+         self.stars = content
+      elif self.CurrentData == "description":
+         self.description = content
+  
+if ( __name__ == "__main__"):
+   
+   # 创建一个 XMLReader
+   parser = xml.sax.make_parser()
+   # turn off namepsaces
+   parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+ 
+   # 重写 ContextHandler
+   Handler = MovieHandler()
+   parser.setContentHandler( Handler )
+   
+   parser.parse("movies.xml")
+```
+以上代码执行结果如下：
+```
+*****Movie*****
+Title: Enemy Behind
+Type: War, Thriller
+Format: DVD
+Year: 2003
+Rating: PG
+Stars: 10
+Description: Talk about a US-Japan war
+*****Movie*****
+Title: Transformers
+Type: Anime, Science Fiction
+Format: DVD
+Year: 1989
+Rating: R
+Stars: 8
+Description: A schientific fiction
+*****Movie*****
+Title: Trigun
+Type: Anime, Action
+Format: DVD
+Rating: PG
+Stars: 10
+Description: Vash the Stampede!
+*****Movie*****
+Title: Ishtar
+Type: Comedy
+Format: VHS
+Rating: PG
+Stars: 2
+Description: Viewable boredom
+```
+### 使用xml.dom解析xml
+文件对象模型（Document Object Model，简称DOM），是W3C组织推荐的处理可扩展置标语言的标准编程接口。
+一个 DOM 的解析器在解析一个 XML 文档时，一次性读取整个文档，把文档中所有元素保存在内存中的一个树结构里，之后你可以利用DOM 提供的不同的函数来读取或修改文档的内容和结构，也可以把修改过的内容写入xml文件。
+python中用xml.dom.minidom来解析xml文件，实例如下：
+实例
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+from xml.dom.minidom import parse
+import xml.dom.minidom
+ 
+# 使用minidom解析器打开 XML 文档
+DOMTree = xml.dom.minidom.parse("movies.xml")
+collection = DOMTree.documentElement
+if collection.hasAttribute("shelf"):
+   print "Root element : %s" % collection.getAttribute("shelf")
+ 
+# 在集合中获取所有电影
+movies = collection.getElementsByTagName("movie")
+ 
+# 打印每部电影的详细信息
+for movie in movies:
+   print "*****Movie*****"
+   if movie.hasAttribute("title"):
+      print "Title: %s" % movie.getAttribute("title")
+ 
+   type = movie.getElementsByTagName('type')[0]
+   print "Type: %s" % type.childNodes[0].data
+   format = movie.getElementsByTagName('format')[0]
+   print "Format: %s" % format.childNodes[0].data
+   rating = movie.getElementsByTagName('rating')[0]
+   print "Rating: %s" % rating.childNodes[0].data
+   description = movie.getElementsByTagName('description')[0]
+   print "Description: %s" % description.childNodes[0].data
+```
+以上程序执行结果如下：
+```
+Root element : New Arrivals
+*****Movie*****
+Title: Enemy Behind
+Type: War, Thriller
+Format: DVD
+Rating: PG
+Description: Talk about a US-Japan war
+*****Movie*****
+Title: Transformers
+Type: Anime, Science Fiction
+Format: DVD
+Rating: R
+Description: A schientific fiction
+*****Movie*****
+Title: Trigun
+Type: Anime, Action
+Format: DVD
+Rating: PG
+Description: Vash the Stampede!
+*****Movie*****
+Title: Ishtar
+Type: Comedy
+Format: VHS
+Rating: PG
+Description: Viewable boredom
+```
+## Python GUI编程(Tkinter)
+Python 提供了多个图形开发界面的库，几个常用 Python GUI 库如下：
+>- Tkinter： Tkinter 模块(Tk 接口)是 Python 的标准 Tk GUI 工具包的接口 .Tk 和 Tkinter 可以在大多数的 Unix 平台下使用,同样可以应用在 Windows 和 Macintosh 系统里。Tk8.0 的后续版本可以实现本地窗口风格,并良好地运行在绝大多数平台中。
+>- wxPython：wxPython 是一款开源软件，是 Python 语言的一套优秀的 GUI 图形库，允许 Python 程序员很方便的创建完整的、功能健全的 GUI 用户界面。
+>- Jython：Jython 程序可以和 Java 无缝集成。除了一些标准模块，Jython 使用 Java 的模块。Jython 几乎拥有标准的Python 中不依赖于 C 语言的全部模块。比如，Jython 的用户界面将使用 Swing，AWT或者 SWT。Jython 可以被动态或静态地编译成 Java 字节码。
+
+### Tkinter 编程
+Tkinter 是 Python 的标准 GUI 库。Python 使用 Tkinter 可以快速的创建 GUI 应用程序。
+由于 Tkinter 是内置到 python 的安装包中、只要安装好 Python 之后就能 import Tkinter 库、而且 IDLE 也是用 Tkinter 编写而成、对于简单的图形界面 Tkinter 还是能应付自如。
+:::info
+注意：Python3.x 版本使用的库名为 tkinter,即首写字母 T 为小写。
+`import tkinter`
+:::
+创建一个GUI程序
+1、导入 Tkinter 模块
+2、创建控件
+3、指定这个控件的 master， 即这个控件属于哪一个
+4、告诉 GM(geometry manager) 有一个控件产生了。
+>实例
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+import Tkinter
+top = Tkinter.Tk()
+# 进入消息循环
+top.mainloop()
+```
+以上代码执行结果如下图:
+![](https://i.imgur.com/wsWYrts.png)
+
+### tkwindow
+>实例
+```python
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+ 
+from Tkinter import *           # 导入 Tkinter 库
+root = Tk()                     # 创建窗口对象的背景色
+                                # 创建两个列表
+li     = ['C','python','php','html','SQL','java']
+movie  = ['CSS','jQuery','Bootstrap']
+listb  = Listbox(root)          #  创建两个列表组件
+listb2 = Listbox(root)
+for item in li:                 # 第一个小部件插入数据
+    listb.insert(0,item)
+ 
+for item in movie:              # 第二个小部件插入数据
+    listb2.insert(0,item)
+ 
+listb.pack()                    # 将小部件放置到主窗口中
+listb2.pack()
+root.mainloop()                 # 进入消息循环
+```
+以上代码执行结果如下图:
+![](https://i.imgur.com/QuDg1xo.png)
+
+
+### Tkinter 组件
+Tkinter的提供各种控件，如按钮，标签和文本框，一个GUI应用程序中使用。这些控件通常被称为控件或者部件。
+目前有15种Tkinter的部件。，在下面的表有这些部件以及一个简短的介绍：
+控件	|描述|
+|-|-|
+Button	|按钮控件；在程序中显示按钮。|
+Canvas	|画布控件；显示图形元素如线条或文本|
+Checkbutton	|多选框控件；用于在程序中提供多项选择框|
+Entry|	输入控件；用于显示简单的文本内容|
+Frame|	框架控件；在屏幕上显示一个矩形区域，多用来作为容器|
+Label	|标签控件；可以显示文本和位图|
+Listbox|	列表框控件；在Listbox窗口小部件是用来显示一个字符串列表给用户|
+Menubutton|	菜单按钮控件，由于显示菜单项。|
+Menu	|菜单控件；显示菜单栏,下拉菜单和弹出菜单|
+Message|	消息控件；用来显示多行文本，与label比较类似|
+Radiobutton	|单选按钮控件；显示一个单选的按钮状态|
+Scale	|范围控件；显示一个数值刻度，为输出限定范围的数字区间|
+Scrollbar|	滚动条控件，当内容超过可视化区域时使用，如列表框。|.
+Text	|文本控件；用于显示多行文本|
+Toplevel	|容器控件；用来提供一个单独的对话框，和Frame比较类似|
+Spinbox	|输入控件；与Entry类似，但是可以指定输入范围值|
+PanedWindow	|PanedWindow是一个窗口布局管理的插件，可以包含一个或者多个子控件。|
+LabelFrame	|labelframe 是一个简单的容器控件。常用与复杂的窗口布局。|
+tkMessageBox	|用于显示你应用程序的消息框。|
+
+### 标准属性
+标准属性也就是所有控件的共同属性，如大小，字体和颜色等等。
+属性	|描述|
+|-|-|
+Dimension	|控件大小；|
+Color	|控件颜色；|
+Font	|控件字体；|
+Anchor	|锚点；|
+Relief	|控件样式；|
+Bitmap	|位图；|
+Cursor	|光标；|
+### 几何管理
+
+Tkinter控件有特定的几何状态管理方法，管理整个控件区域组织，一下是Tkinter公开的几何管理类：包、网格、位置
+几何方法	|描述|
+|-|-|
+pack()	|包装；|
+grid()	|网格；|
+place()	|位置；|
