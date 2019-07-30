@@ -232,6 +232,9 @@ $ python test.py -i inputfile -o outputfile
 输入的文件为： inputfile
 输出的文件为： outputfile
 ```
+一些python語法：
+
+
 ![](https://i.imgur.com/AJbMuRj.png)
 
 ---
@@ -490,6 +493,7 @@ print(even,odd)
 >### 刪除字典
 >显示删除一个字典用del命令。在del操作後執行命令會引發異常，因為字典已不存在。
 >### 字典函數：
+	
 >|名稱|描述|
 >|-|-|
 >|1.	radiansdict.clear()|删除字典内所有元素|
@@ -505,6 +509,7 @@ print(even,odd)
 >|11. pop(key[,default])|删除字典给定键 key 所对应的值，返回值为被删除的值。key值必须给出。 否则，返回default值。|
 >|12. popitem()|随机返回并删除字典中的一对键和值(一般删除末尾对)。|
 ### 檢查成員是否存在於字串、列表、元組內
+
 以列表(list)為例
 ```python=
 a = 10
@@ -522,6 +527,7 @@ else:
    print （"變量b在给定的列表中list中"）
 ```
 >### Python数据类型转换
+
 |函式|意義|
 |----|--|
 |tuple ( s )| 將序列 s 轉換為一個元组|
@@ -624,9 +630,11 @@ print(b)
 
 >基本格式：
 `variable = [out_exp_res for out_exp in input_list if out_exp == 2]`
-out_exp_res:　　列表生成元素表示式，可以是有返回值的函式。
-for out_exp in input_list：　　迭代input_list將out_exp傳入out_exp_res表示式中。
-if out_exp == 2：　　根據條件過濾哪些值可以。
+
+- out_exp_res:列表生成元素表示式，可以是有返回值的函式。
+- for out_exp in input_list：迭代input_list將out_exp傳入out_exp_res表示式中。
+- if out_exp == 2：根據條件過濾哪些值可以。
+
 ```python=
 [1]
 def squared(x):
