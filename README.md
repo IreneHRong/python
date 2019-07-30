@@ -5436,3 +5436,443 @@ Tkinter控件有特定的几何状态管理方法，管理整个控件区域组�
 pack()	|包装；|
 grid()	|网格；|
 place()	|位置；|
+
+## open cv 讀取圖片
+首先引入 NumPy 與 OpenCV 的 Python 模組：
+```
+import numpy as np
+import cv2
+```
+OpenCV 本身就有提供讀取圖片檔的函數可用，讀取一般的圖片檔，只要呼叫 cv2.imread 即可將圖片讀取進來：
+### 讀取圖檔
+img = cv2.imread('image.jpg')
+以 cv2.imread 讀進來的資料，會儲存成一個 NumPy 的陣列，我們可以用 type 檢查一下：
+```python
+type(img)
+<class 'numpy.ndarray'>
+```
+此 NumPy 陣列的前兩個維度分別是圖片的高度與寬度，第三個維度則是圖片的 channel（RGB 彩色圖片的 channel 是 3，灰階圖片則為 1）。
+
+以這個子來說，我們的原始圖片是一張 1920×1080 的彩色圖片，我們可以檢查一下這個 NumPy 陣列的大小：
+```
+img.shape
+(1080, 1920, 3)
+```
+### 圖檔格式
+
+OpenCV 的 cv2.imread 在讀取圖片時，可以在第二個參數指定圖片的格式，可用的選項有三種：
+
+cv2.IMREAD_COLOR
+此為預設值，這種格式會讀取 RGB 三個 channels 的彩色圖片，而忽略透明度的 channel。
+cv2.IMREAD_GRAYSCALE
+以灰階的格式來讀取圖片。
+cv2.IMREAD_UNCHANGED
+讀取圖片中所有的 channels，包含透明度的 channel。
+這是讀取灰階圖片的範例：
+
+以灰階的方式讀取圖檔:
+```
+img_gray = cv2.imread('image.jpg', cv2.IMREAD_GRAYSCALE)
+```
+### 顯示圖片
+
+將圖片讀取進來之後，可以使用 OpenCV 所提供的 cv2.imshow 來顯示圖片：
+
+顯示圖片:
+```python
+cv2.imshow('My Image', img)
+# 按下任意鍵則關閉所有視窗
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
+這裡 `cv2.waitKey `函數是用來等待與讀取使用者按下的按鍵，而其參數是等待時間（單位為毫秒），若設定為` 0` 就表示持續等待至使用者按下按鍵為止，這樣當我們按下`任意按鍵`之後，就會呼叫 cv2.destroyAllWindows 關閉所有 OpenCV 的視窗。
+:::info
+等待按鍵輸入
+`int waitKey(int delay=0)`
+
+delay：等待時間，這邊主要分兩大類使用方式，當delay<=0時，程式靜止，當delay>0時，函式會等待參數時間(ms)後，返回按鍵的ASCII碼，如果這段時間沒有按鍵按下，會返回-1。
+
+waitKey()只有搭配OpenCV視窗才有效果，沒有視窗的話無此暫停程式功能。
+可以使用這個特性搭配while迴圈，讓圖片不斷顯示，直到按下某特定按鍵後才停止。
+由於esc鍵的ASCII碼為27，所以以下程式只有按下esc鍵，程式才會跳出迴圈：
+```python
+while(true){ 
+    imshow("Display window", img);  
+    if(cvWaitKey(10)==27){  
+        break; 
+    } 
+}
+```
+:::
+
+如果在程式中有許多的 OpenCV 視窗，而我們只要關閉特定的視窗時，可以改用 cv2.destroyWindow 加上視窗名稱，關閉指定的視窗：
+
+關閉 'My Image' 視窗:
+```
+cv2.destroyWindow('My Image')
+```
+在預設的狀況下，以 cv2.imshow 所開啟的視窗會依據圖片來自動調整大小，但若是圖片太大、佔滿整個螢幕時，我們會希望可以自由縮放視窗的大小，這時候就可以使用 cv2.namedWindow 將視窗設定為 cv2.WINDOW_NORMAL：
+```
+#讓視窗可以自由縮放大小:
+cv2.namedWindow('My Image', cv2.WINDOW_NORMAL)
+
+cv2.imshow('My Image', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
+
+### 寫入圖片檔案
+
+若要將 NumPy 陣列中儲存的圖片寫入檔案，可以使用 OpenCV 的 cv2.imwrite：
+```python=
+# 寫入圖檔
+cv2.imwrite('output.jpg', img)
+cv2.imwrite 可透過圖片的副檔名來指定輸出的圖檔格式：
+
+# 寫入不同圖檔格式
+cv2.imwrite('output.png', img)
+cv2.imwrite('output.tiff', img)
+輸出圖片檔案時，也可以調整圖片的品質或壓縮率：
+
+# 設定 JPEG 圖片品質為 90（可用值為 0 ~ 100）
+cv2.imwrite('output.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 90])
+
+# 設定 PNG 壓縮層級為 5（可用值為 0 ~ 9）
+cv2.imwrite('output.png', img, [cv2.IMWRITE_PNG_COMPRESSION, 5])
+```
+
+### Matplotlib
+
+Matplotlib 是 Python 之中很常被使用的繪圖工具，以下介紹如何以 Matplotlib 顯示 OpenCV 讀入或產生的圖片。
+
+### 彩色圖片
+
+Matplotlib 顯示圖片的方式也很簡單，只要呼叫 imshow 就可以了，但是由於 OpenCV 讀取進來的圖片會以 BGR 的方式儲存三個顏色的 channel，如果直接把 OpenCV 讀入的圖片放進 Matplotlib 來顯示，就會出現類似這樣的顏色錯誤問題：
+![](https://i.imgur.com/x4swDIm.jpg)
+
+遇到這樣的問題，只要將 OpenCV 讀入的 BGR 格式轉為 Matplotlib 用的 RGB 格式，再交給 Matplotlib 顯示就會得到正確的結果了。以下是使用 Matplotlib 顯示彩色圖片的範例：
+```python
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt
+
+# 使用 OpenCV 讀取圖檔
+img_bgr = cv2.imread('image.jpg')
+
+# 將 BGR 圖片轉為 RGB 圖片
+img_rgb = img_bgr[:,:,::-1]
+
+# 或是這樣亦可
+# img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+
+# 使用 Matplotlib 顯示圖片
+plt.imshow(img_rgb)
+plt.show()
+```
+### 灰階圖片
+
+而如果是以 OpenCV 讀取灰階的圖片時，由於 channel 只有一個，所以就不會有上述的色彩問題，直接把 OpenCV 讀入的 NumPy 陣列放進 Matplotlib 的 imshow 中即可顯示，但是 Matplotlib 在顯示一個 channel 的圖片時，會用預設的 colormap 上色，所以畫出來繪像這樣：
+
+![](https://i.imgur.com/zC5eN5c.jpg)
+如果想要以黑白的方式呈現灰階圖片，可以自己設定 colormap：
+```python
+# 使用 OpenCV 讀取灰階圖檔
+img_gray = cv2.imread('image.jpg', cv2.IMREAD_GRAYSCALE)
+
+# 使用 Matplotlib 顯示圖片
+plt.imshow(img_gray, cmap = 'gray')
+plt.show()
+```
+結果就會是灰色階的照片了。
+
+
+
+## python處理照片
+### 切割圖片
+利用opencv將圖片切割成8X8的例子如下：
+```python=
+import cv2, numpy
+
+img = cv2.imread('/home/eray/Desktop/crop/crop01.jpg')
+h,w,c = img.shape   #讀取圖片的長寬高
+a = int(h/8)
+b = int(w/8)
+
+x = [0, 1*a, 2*a, 3*a, 4*a, 5*a, 6*a, 7*a]
+y = [0, 1*b, 2*b, 3*b, 4*b, 5*b, 6*b, 7*b]
+k = 0
+
+for i in range(8):
+    for j in range(8):
+        crop-img = img[x[i]:x[i]+a, y[j]:y[j]+b]
+        # cv2.imshow('crop'+str(k),crop_img)
+        # cv2.waitKey(0)
+        cv2.imwrite('crop'+str(k)+'.jpg',crop_img)
+        k += 1
+cv2.destroyWindow()
+```
+儲存切割後的照片的位置，是python檔存放的檔案夾。
+
+
+## python處理由jpg檔修改對應之xml檔
+```python
+import glob, os
+
+gloves_xml = '/home/eray/Desktop/20190711/UDA_gloves20190708/xml/'
+shoes_xml = '/home/eray/Desktop/20190711/UDA_shoes20190704/xml/'
+
+all = os.listdir(gloves_xml)
+all += os.listdir(shoes_xml_)
+all.short()
+
+a = len(all)
+
+i = 0
+while i < a-1:
+    if all[i] == all[i+1]:
+        del all[i]
+    i += 1
+print(len(all))
+```
+
+## python處理xml之讀取及寫入
+```python
+[1]
+import os
+f = open('/Users/irenehuang/desktop/labelImg.py','r+')
+data = f.readlines()
+print(data)
+```
+:::info
+f = open( ' /Users/irenehuang/desktop/capMask ' , ' r+' )中
+因為open('r')讀完之後指標不會回到一開始，在讀取上會有Error，所以要把它存起來（例如存成data = f.readlines）或是再開一次
+:::
+
+```python
+[2]
+from os import walk
+from os.path import join
+
+f = open('/Users/irenehuang/desktop/label_20190705/UDA_newCap2')
+data=os.listdir('/Users/irenehuang/desktop/label_20190705/UDA_newCap2')
+#listdir是取得指定目錄中所有的檔案與子目錄名稱
+print(data) 
+#print出的data會是一個list，每一行data是一個string，用逗號隔開.
+#
+data.find('/Users/irenehuang/desktop/capMask')
+for root, dirs, files in walk('/Users/irenehuang/desktop/capMask'):
+    for f in files:
+    fullpath = join(root, f)
+print(fullpath)									
+##fullpath 取得所有檔案的絕對路徑，讓程式逐一處理
+root_pic = '/Users/irenehuang/desktop/capMask/'
+root_xml1 = '/Users/irenehuang/desktop/label_20190705/UDA_newCap2'
+root_xml = '/Users/irenehuang/desktop/label_20190705/UDA_newCap2/'
+
+
+k1 = os.listdir('/Users/irenehuang/desktop/capMask/')
+k2 = os.listdir('/Users/irenehuang/desktop/label_20190705/UDA_newCap2/')
+
+#for i in k1:
+#	print(i)
+
+
+f = open('/Users/irenehuang/desktop/label_20190705/UDA_newCap2/20190604_1751__0.xml', 'r+')
+f1 = open('/Users/irenehuang/desktop/label_20190705/training/20190604_1751__0.xml', 'w') 
+#'w'寫，並存到新的folder,而檔名不要改（for辨識）
+
+
+
+
+
+a = f.readlines()  
+print(type(f))
+print(type(a))
+#print(k1)
+
+
+#print(len(a)) #看整個檔案有幾行,來判斷要不要改他（因為只改一個name的)
+
+#if len(a) < 30 :
+#	for i in a:
+#		if i.find('<name>') != -1:
+			#print (i)
+#			f1.write('\t\t<name>capMask</name>\n')  #write是寫一整行
+#		else:
+#			f1.write(i)
+#	f.close()
+#	f1.close()
+'''
+#print(i)
+
+'''
+#for j in range(0, len(k)):
+	#print (i[j])
+	
+#	if ( os.path.isfile(root_xml+k[j][:-3]+'xml')):
+		#print (i[j])
+#		f = open(os.path.join(root_xml1, k[j][:-3]+'xml'), 'r+')
+	#print(i.os.rename('.jpg','.xml'))
+
+
+
+
+
+
+```
+
+
+
+
+
+### os.path.splitext
+>os.path.splitext(檔名)[-1]) 
+照理來說是要印出副檔名
+
+### 拍森的一些指令
+>列出此目錄下所有文件：
+>```
+>$ import os
+>$ os.listdir(' . ')
+>```
+>列出type：
+>```
+>$ type(os.listdir(' . '))   //<type 'list'>
+>```
+>列出此目錄下所有文件的數量：
+>```
+>$ len(os.listdir(' . '))
+>```
+>列出所有副檔名為*.text的文件
+>```
+>$ import glob
+>$ glob.glob(' *.text ')
+>```
+>把檔名跟副檔名分開：
+>```
+>$ os.path.splitext(' abc.odt ')
+>os.path.splitext(' abc.odt ')[0]   // ' abc '
+>os.path.splitext(' abc.odt ')[1]   // ' .odt '
+>```
+>想要將list裡的字串連接起來便可以用join:
+>```
+>$ list = ['how', 'are', 'you']
+>$print ', '.join(list)      // how, are, you
+>$$print '--'.join(list)      // how--are--you
+>```
+>檢查指定資料夾內的所有檔案：
+>```
+>$ os.walk('path') //必須要用for in迴圈才能跑出來, 他的type是vgenerator(選擇器)
+>```
+>檢查是否有tmp資料夾：
+>```
+>$ os.path.isdir('tmp')
+>```
+>建立名稱為name的資料夾：
+>```
+>$ os.mkdir('name')
+>```
+>等同Pwd的指令,顯示目前所在位置的絕對路徑：
+>```
+>$ os.getcwd()
+>```
+>等同於cd指令,切換終端機視角所在的資料夾位置：
+>```
+>$ os.chdir()
+>```
+>List加入aaa字串的資料:
+>```
+>$ list.appent('aaa')
+>```
+>字串取代 replace:
+>```
+>$ print 'abcdefg'.replace( 'abc', '123' )     // 123defg
+>```
+
+
+
+
+## python讀取與寫入範例
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import xml.etree.cElementTree as ET
+import glob
+import math
+import time
+import datetime
+import numpy as np
+import cv2
+import shutil
+from os import walk
+from os import listdir
+from os.path import isfile, isdir, join
+
+def sss():
+    source = '/home/eray/programProject/'
+
+if __name__=='__main__':
+    source = '/home/eray/programCASE/yolov3-program/darknet-alex/VOCdevkit/VOC2007/Annotations/'
+    listS = glob.glob(os.path.join(source, '*.xml'))
+    print len(listS)
+    print len(listS)*0.8
+    print len(listS)*0.1
+    
+    f = open('/home/eray/Desktop/list.txt', 'w')
+    f1 = open('/home/eray/Desktop/trainval.txt', 'w')
+    f2 = open('/home/eray/Desktop/train.txt', 'w')
+    f3 = open('/home/eray/Desktop/val.txt', 'w')
+    f4 = open('/home/eray/Desktop/test.txt', 'w')
+    
+    for i in range(0, len(listS)):            
+        regStr = listS[i].rpartition(".")[0]
+        regStr = regStr.rpartition("/")[2]
+        f.write(regStr)
+        f1.write(regStr)
+        if i < len(listS)*0.8:
+            f2.write(regStr)
+            f2.write('\n')
+        else :
+            f3.write(regStr)
+            f3.write('\n')
+        if i > len(listS)*0.9:
+            f4.write(regStr)
+            f4.write('\n')
+        f.write('\n')
+        f1.write('\n')
+```
+
+## NumPy 教程
+
+NumPy（Numerical Python）是Python語言的一個擴展程序庫，支持大量的維度數組與矩陣運算，此外也針對數組運算提供大量的數學函數庫。
+數字計算，包含：
+一個強大的N維數組對象Ndarray，廣播功能函數，整合C / C ++ / Fortran代碼的工具，線性代數，傅里葉變換，隨機數生成等功能
+
+NumPy通常與SciPy（科學Python）和Matplotlib（繪圖庫）一起使用，這種組合廣泛用於替代MatLab，是一個強大的科學計算環境，有助於我們通過Python學習數據科學或者機器學習。
+- SciPy是一個開源的Python算法庫和數學工具包。
+SciPy包含的模塊有最優化，線性代數，積分，插值，特殊函數，快速傅里葉變換，信號處理和圖像處理，常微分方程求解和其他科學與工程中常用的計算。
+- Matplotlib是Python編程語言及其數值數學擴展包NumPy的可視化操作界面。它為利用通用的圖形用戶界面工具包，如Tkinter，wxPython，Qt或GTK +向應用程序嵌入式繪圖提供了應用程序接口（API）
+
+### NumPy Ndarray 对象
+NumPy 最重要的一个特点是其 N 维数组对象 ndarray，它是一系列同类型数据的集合，以 0 下标为开始进行集合中元素的索引。
+- ndarray 对象是用于存放同类型元素的多维数组。
+- ndarray 中的每个元素在内存中都有相同存储大小的区域。
+- ndarray 内部由以下内容组成：
+-- 一个指向数据（内存或内存映射文件中的一块数据）的指针。
+-- 数据类型或 dtype，描述在数组中的固定大小值的格子。
+-- 一个表示数组形状（shape）的元组，表示各维度大小的元组。
+-- 一个跨度元组（stride），其中的整数指的是为了前进到当前维度下一个元素需要"跨过"的字节数。 跨度可以是负数，这样会使数组在内存中后向移动，切片中 obj[::-1] 或 obj[:,::-1] 就是如此。
+
+NumPy 的 Array 函數：
+`numpy.array(object, dtype = None, copy = True, order = None, subok = False, ndmin = 0)`
+參數說明：
+|名稱|描述|
+|----|----|
+|object	|数组或嵌套的数列|
+dtype	|数组元素的数据类型，可选|
+copy|	对象是否需要复制，可选|
+order|	创建数组的样式，C为行方向，F为列方向，A为任意方向（默认）|
+subok|	默认返回一个与基类类型一致的数组|
+ndmin|	指定生成数组的最小维度|
