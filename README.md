@@ -144,10 +144,11 @@ S.count（substring，[start [，end]]）＃返回找到子串的個數
 >S.join（list，''）＃將list轉string，以空格連接
 >
 >處理字符串的內置函數
->len（str）＃串長度
->cmp（“我的朋友”，str）＃字符串比較。第一個大，返回1
->max（'abcxyz'）＃尋找字符串中最大的字符
->min（'abcxyz'）＃尋找字符串中最小的字符
+
+>len（str）:串長度
+>cmp（“我的朋友”，str）:字符串比較。第一個大，返回1
+>max（'abcxyz'）:尋找字符串中最大的字符
+>min（'abcxyz'）:尋找字符串中最小的字符
 
 ## Python 命令行参数
 Python 提供了 getopt 模块来获取命令行参数。
@@ -182,6 +183,7 @@ getopt模块是专门处理命令行参数的模块，用于获取命令行选�
 getopt.getopt 方法用于解析命令行参数列表，语法格式如下：
 `getopt.getopt(args, options[, long_options])`
 方法参数说明：
+
 - args: 要解析的命令行参数列表。
 - options : 以字符串的格式定义，options 后的冒号 : 表示如果设置该选项，必须有附加的参数，否则就不附加参数。
 - long_options : 以列表的格式定义，long_options 后的等号 = 表示该选项必须有附加的参数，不带冒号表示该选项不附加参数。
