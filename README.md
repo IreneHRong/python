@@ -246,7 +246,7 @@ $ python test.py -i inputfile -o outputfile
 轉義字符，以‘\’加在前面。
 字符串內建函數：
 |名称|叙述|
-|-|-|
+|-----|------|
 |1. capitalize()|将字符串的第一个字符转换为大写|
 |2. center(width, fillchar)|返回一个指定的宽度 width 居中的字符串，fillchar 为填充的字符，默认为空格。|
 |3. count(str, beg= 0,end=len(string))|返回 str 在 string 里面出现的次数，如果 beg 或者 end 指定则返回指定范围内 str 出现的次数|
