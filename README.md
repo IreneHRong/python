@@ -128,20 +128,21 @@ a, b, c = 5, 12.09, 'K'
 
 >
 >### 字串 / 字符串也有運算：
-S.find（substring，[start [，end]]）＃可指範圍查找子串，返回索引值，否則返回-1
-S.rfind（substring，[start [，end]]）＃反向查找
-S.index（substring，[start [，end]]）＃同找，只是找不到產生ValueError異常
-S.rindex（substring，[start [，end]]）＃同上反向查找
-S.count（substring，[start [，end]]）＃返回找到子串的個數
+
+S.find（substring，[start [，end]]）:可指範圍查找子串，返回索引值，否則返回-1
+S.rfind（substring，[start [，end]]）:反向查找
+S.index（substring，[start [，end]]）:同上，只是找不到產生ValueError異常
+S.rindex（substring，[start [，end]]）：同上反向查找
+S.count（substring，[start [，end]]）：返回找到子串的個數
 >
->S.lowercase（）
->S.capitalize（）＃首字母大寫
->S.lower（）＃轉小寫
->S.upper（）＃轉大寫
->S.swapcase（）＃大小寫互換
+>S.lowercase（） :使首個字母小寫
+>S.capitalize（）:使首個字母大寫
+>S.lower（）：轉小寫
+>S.upper（）：轉大寫
+>S.swapcase（）：大小寫互換
 >
->S.split（str，''）＃將字符串轉錄，以空格切分
->S.join（list，''）＃將list轉string，以空格連接
+>S.split（str，''）:將字符串轉錄，以空格切分
+>S.join（list，''）:將list轉string，以空格連接
 >
 >處理字符串的內置函數
 
