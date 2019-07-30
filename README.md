@@ -245,6 +245,7 @@ $ python test.py -i inputfile -o outputfile
 ### 字串string
 轉義字符，以‘\’加在前面。
 字符串內建函數：
+
 |名称|叙述|
 |-----|------|
 |1. capitalize()|将字符串的第一个字符转换为大写|
