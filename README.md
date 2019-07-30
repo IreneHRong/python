@@ -128,7 +128,7 @@ a, b, c = 5, 12.09, 'K'
 
 >
 >### 字串 / 字符串也有運算：
->S.find（substring，[start [，end]]）＃可指範圍查找子串，返回索引值，否則返回-1
+S.find（substring，[start [，end]]）＃可指範圍查找子串，返回索引值，否則返回-1
 S.rfind（substring，[start [，end]]）＃反向查找
 S.index（substring，[start [，end]]）＃同找，只是找不到產生ValueError異常
 S.rindex（substring，[start [，end]]）＃同上反向查找
