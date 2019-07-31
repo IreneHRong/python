@@ -339,14 +339,22 @@ endswith(suffix, beg=0, end=len(string))|检查字符串是否以 obj 结束，�
 >###### [Out] `[1, 2, 3, 4, 5, 6]`
 > ### 列表的修改
 >動態增加元素:  #注意有`()`
+
 >-- list.append(x): 把變數x塞到list的最後面
+>
 >-- list.insert(i, x): 把變數x塞到ls[i]這個位置上
+>
 >-- list.pop(): 把list的最後一格丟掉，且返回該元素的值
+>
 >-- list.pop(i): 把list的第i格丟掉
+>
 >-- list.remove(x): 移除第一個出現的值x
+>
 >-- list.clear(): 把list內的資料全部清光光
+>
 >-- list.sort(cmp=None, key=None, reverse=False) :
-> > 實例
+>
+> 實例
 >>  ```python
 >>  #!/usr/bin/python
 >># -*- coding: UTF-8 -*-
@@ -372,7 +380,9 @@ endswith(suffix, beg=0, end=len(string))|检查字符串是否以 obj 结束，�
 >- list.extend(seq) : 在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）
 >
 > 與常見函數的結合:
+>
 >-- cmp(list1, list2):
+>
 >>如果比較的元素是同類型的,則比較其值,返回結果。
 如果兩個元素不是同一種類型,則檢查它們是否是數字。
 如果是數字,執行必要的數字強制類型轉換,然後比較。
@@ -382,8 +392,9 @@ endswith(suffix, beg=0, end=len(string))|检查字符串是否以 obj 结束，�
 如果我們用盡了兩個列表的元素而且所 有元素都是相等的,那麼結果就是個平局,就是說返回一個 0。
 >
 >-- max(list): 找出list中最大值
->>
+>
 >-- min(list): 找出list中最小值
+>
 >-- sum(list): 找出list數字總和
 例子：
 ```python=
@@ -482,7 +493,8 @@ print(even,odd)
 >`{'s', 2}`
 >`2`
 >```python=15
-># 字典轉字串用法
+>
+>#字典轉字串用法
 >
 > dc = {'Name': 'Runoob', 'Age': 7, 'Class': 'First'}
 > print (str(dc))
@@ -515,7 +527,7 @@ print(even,odd)
 >### 字典函數：
 	
 >|名稱|描述|
->|-|-|
+>|----|----|
 >|1.	radiansdict.clear()|删除字典内所有元素|
 >|2.	radiansdict.copy()|返回一个字典的浅复制|
 >|3. radiansdict.fromkeys()|创建一个新字典，以序列seq中元素做字典的键，val为字典所有键对应的初始值|
@@ -528,6 +540,7 @@ print(even,odd)
 >|10. radiansdict.values()|返回一个迭代器，可以使用 list() 来转换为列表|
 >|11. pop(key[,default])|删除字典给定键 key 所对应的值，返回值为被删除的值。key值必须给出。 否则，返回default值。|
 >|12. popitem()|随机返回并删除字典中的一对键和值(一般删除末尾对)。|
+
 ### 檢查成員是否存在於字串、列表、元組內
 
 以列表(list)為例
